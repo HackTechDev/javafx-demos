@@ -1,0 +1,46 @@
+
+.triangle-shape{
+	-fx-background-color:red;
+	-fx-shape: "M 0 0 v 10 l -5 -5 z";
+}
+
+.rectangle-shape{
+	-fx-background-color:red;
+	-fx-shape: "M 0 0 V 20 H 40 V 0 z";
+}
+
+.square-shape{
+	-fx-background-color:red;
+	-fx-shape: "M 0 0 V 40 H 40 V 0 z";
+}
+.octagone-shape{
+	-fx-background-color: linear (0%,0%) to (0%,100%) stops (0%, derive(red,80%)) (25%, derive(red,40%)) (50%, derive(red,0%)) (98%, derive(red,-20%)) (100%, derive(red,-50%)); /*derive(-fx-base,-10%); #214078;*/
+	-fx-shape: "M 0 0 V 20 L 20 40 H 40 L 60 20 V 0 L 40 -20 H 20 z";
+}
+
+.curve-shape{
+	-fx-background-color: linear (0%,0%) to (0%,100%) stops (0%, derive(red,80%)) (25%, derive(red,40%)) (50%, derive(red,0%)) (98%, derive(red,-20%)) (100%, derive(red,-50%)); /*derive(-fx-base,-10%); #214078;*/
+	-fx-shape: "M100,200 C100,100 250,100 250,200 S400,300 400,200";
+}
+.circle-shape{
+	-fx-background-color: yellow;
+	-fx-shape: "M100,200 C100,100 250,100 250";
+	}
+	
+.big-bended-arrow{
+	-fx-background-color: black,white;
+	-fx-background-insets:0,1;
+	-fx-shape: "M 0 60 V 70 L 60 130 L 80 110 L 40 70  V 60 L 80 20 L 60 0 L 0 60 Z";
+}
+.small-bended-arrow{
+	-fx-background-color: white;
+	-fx-border-color: black;
+	-fx-border-width: 1px;
+	-fx-shape: "M 0 6 V 7 L 6 13 L 8 11 L 4 7  V 6 L 8 2 L 6 0 L 0 6 Z";
+}
+.small-bended-arrow-rect{
+	-fx-fill: white;
+	-fx-stroke: black;
+	-fx-stroke-width: 1px;
+	-fx-shape: "M 0 6 V 7 L 6 13 L 8 11 L 4 7  V 6 L 8 2 L 6 0 L 0 6 Z";
+}
