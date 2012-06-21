@@ -1,0 +1,4 @@
+.sceneGradient{
+	-fx-base: red;
+	-fx-background-color:radial-gradient(center 10% 10%, radius 100%, derive(-fx-base,90%) 10%, derive(-fx-base,-10%) 90%);
+}
