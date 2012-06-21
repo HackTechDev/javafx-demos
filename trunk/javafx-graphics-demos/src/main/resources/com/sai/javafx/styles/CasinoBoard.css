@@ -1,0 +1,46 @@
+.borderCheck{
+	-fx-border-width:1px;
+	-fx-border-color:red;	
+}
+
+.base1 {
+    -fx-fill:
+        linear-gradient(#A76956, #F5BFA2),
+        radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #395306;
+}
+.base1-line{
+	-fx-stroke: #765649;/*C28364;*/
+    -fx-stroke-width: 0.162222em;
+}
+.rotateBoard-lineAA{
+	-fx-stroke: #DABA84, #8B6836;
+	-fx-stroke-width: 3px;
+}
+.rotateBoard-line{
+	-fx-background-color: #BE965A,#DABA84, #DEBE88;
+	-fx-background-insets: 0 0 0 0, 0 0 0 1, 0 0 0 2;
+}
+.base2 {
+	-fx-fill:red;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #395306;
+}
+.bigArcBlackFill{
+	-fx-fill:radial-gradient(center 75% 50%, radius 40%, #5A5A5A .5%,#4A4A4A 2%, black 100%);
+}
+.bigArcRedFill{
+	-fx-fill:radial-gradient(center 75% 50%, radius 40%, #EA3000 .5%,#D82600 1%, #990300 100%);
+}
+.bigArcGreenFill{
+	-fx-fill:radial-gradient(center 75% 50%, radius 40%, #73CC00 .5%,#3D8800 1%, #3E8800 100%);
+}
+.arc{
+	-fx-fill:radial-gradient(center 75% 50%, radius 40%, #333333 .5%,#111111 1%, red 100%);
+}
+.boardEdge{
+	/*-fx-stroke: radial-gradient(center 50% -40%, radius 200%, purple 10%, yellow 90%); /*linear-gradient(#ECB957, #FFECC6);*/
+	/*-fx-stroke-width: 8px;*/
+	-fx-fill:radial-gradient(center 50% 50%, radius 50%, #FFE5AE 97%, #885D42);
+}
