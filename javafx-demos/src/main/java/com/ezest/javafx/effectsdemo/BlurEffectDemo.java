@@ -32,6 +32,7 @@ public class BlurEffectDemo extends Application{
 		root.getChildren().add(boxBlur());
 		root.getChildren().add(motionBlur());
 		root.getChildren().add(gaussianBlur());
+		root.getChildren().add(BloomEffectDemo.bloom());
 		
 		stage.setTitle("JavaFx Blur Effect Demo");
 		stage.setScene(scene);

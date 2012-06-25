@@ -45,7 +45,7 @@ public class InnerShadowEffectDemo extends Application {
 		
 		Rectangle sp10 = getBox( "-fx-effect: innershadow( one-pass-box , blue , 10, 0.2 , 4 , 4 );");
 		Rectangle sp11 = getBox( "-fx-effect: innershadow( two-pass-box , blue , 10, 0.2 , 4 , 4 );");
-		Rectangle sp12 = getBox( "-fx-effect: innershadow( gaussian , blue , 30, 0.1 , 0 , 0 );");
+		Rectangle sp12 = getBox( "-fx-effect: innershadow( gaussian , blue , 50, 0.1 , 0 , 0 );");
 		Rectangle sp12A = getBox( "-fx-effect: innershadow( gaussian , blue , 10, 0.2 , 4 , 4 );");
 		
 		Rectangle sp13 = getBox( "-fx-effect: innershadow( one-pass-box , blue , 10, 0.5 , 8 , 16 );");
