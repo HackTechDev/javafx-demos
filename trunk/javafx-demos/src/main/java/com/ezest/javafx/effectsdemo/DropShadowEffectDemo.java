@@ -46,7 +46,7 @@ public class DropShadowEffectDemo extends Application {
 		
 		StackPane sp13 = getBox( "-fx-effect: dropshadow( one-pass-box , blue , 10, 0.5 , 8 , 16 );");
 		StackPane sp14 = getBox( "-fx-effect: dropshadow( two-pass-box , blue , 10, 0.5 , 8 , 16 );");
-		StackPane sp15 = getBox( "-fx-effect: dropshadow( three-pass-box , blue , 10, 0.5 , 8 , 16 );");
+		StackPane sp15 = getBox( "-fx-effect: dropshadow( three-pass-box , blue , 10, 0.5 , -4 , -4 );");
 		StackPane sp15A = getBox( "-fx-effect: dropshadow( gaussian , blue , 10, 0.5 , 8 , 16 );");
 		
 		root.getChildren().addAll(sp1,sp2,sp3, 

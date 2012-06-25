@@ -9,16 +9,20 @@ package com.ezest.javafx.demogallery.controls;
  */
 
 import javafx.application.Application;
-
-import javafx.scene.Group;
-
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.VBoxBuilder;
 import javafx.stage.Stage;
 
-import javafx.scene.control.*;
-
-import javafx.scene.layout.HBox;
+import com.javafx.experiments.scenicview.ScenicView;
 
  
 
@@ -50,13 +54,15 @@ import javafx.scene.layout.HBox;
 
 public class PillButtonSample extends Application {
 
- 
+	Scene scene;
+	VBox root;
 
     private void init(Stage primaryStage) {
 
-        Group root = new Group();
-
-        primaryStage.setScene(new Scene(root));
+        root = VBoxBuilder.create().padding(new Insets(15)).spacing(10).build();
+        scene = new Scene(root,1000,500);
+        scene.getStylesheets().add("styles/pillbutton/PillButton.css");
+        primaryStage.setScene(scene);
 
  
 
@@ -66,17 +72,17 @@ public class PillButtonSample extends Application {
 
         // create 3 toggle buttons and a toogle group for them
 
-        ToggleButton tb1 = new ToggleButton("Left ButtonTest");
+        ToggleButton tb1 = new ToggleButton("Left Button Test");
 
-        tb1.setId("pill-left");
+        tb1.getStyleClass().add("pill-left");
 
         ToggleButton tb2 = new ToggleButton("Center Button Test");
 
-        tb2.setId("pill-center");
+        tb2.getStyleClass().add("pill-center");
 
         ToggleButton tb3 = new ToggleButton("Right Button Test");
 
-        tb3.setId("pill-right");
+        tb3.getStyleClass().add("pill-right");
 
  
 
@@ -95,12 +101,8 @@ public class PillButtonSample extends Application {
  
 
         HBox hBox = new HBox();
-
         hBox.getChildren().addAll(tb1, tb2, tb3);
-
-        hBox.getStylesheets().add("styles/pillbutton/PillButton.css");
-
-        root.getChildren().add(hBox);
+        root.getChildren().addAll(new Label("Using ToggleButtons"),hBox);
 
     }
 
@@ -108,12 +110,51 @@ public class PillButtonSample extends Application {
 
     @Override public void start(Stage primaryStage) throws Exception {
 
-        init(primaryStage);
-
+    	init(primaryStage);
+    	initSecond();
         primaryStage.show();
+        ScenicView.show(scene);
 
     }
 
-    public static void main(String[] args) { launch(args); }
+    private void initSecond() {
+    	
+    	 final Button tb1 = new Button("Left Button TestLeft Button TestLeft Button Test");
+    	 tb1.getStyleClass().addAll("pill-left-btn");
+
+    	 final Button tb2 = new Button("Center Button TestCenter1");
+         tb2.getStyleClass().addAll("pill-center-left-btn");
+
+         final Button tb3 = new Button("Center Button TestCenter2");
+         tb3.getStyleClass().addAll("pill-center-btn");
+
+         final Button tb4 = new Button("Right Button TestRight Button TestRight Button Test");
+         tb4.getStyleClass().addAll("pill-right-btn");
+
+         EventHandler<MouseEvent> event = new EventHandler<MouseEvent>() {
+ 			@Override
+ 			public void handle(MouseEvent arg0) {
+ 				tb1.getStyleClass().remove("selected");
+ 				tb2.getStyleClass().remove("selected");
+ 				tb3.getStyleClass().remove("selected");
+ 				tb4.getStyleClass().remove("selected");
+ 				Button btn = (Button)arg0.getSource();
+ 				btn.getStyleClass().add("selected");
+ 			}
+ 		};
+ 		
+ 		tb1.setOnMouseClicked(event);
+ 		tb2.setOnMouseClicked(event);
+ 		tb3.setOnMouseClicked(event);
+ 		tb4.setOnMouseClicked(event);
+ 		
+         HBox hBox = new HBox();
+         hBox.getChildren().addAll(tb1, tb2, tb3 ,tb4);
+         root.getChildren().addAll(new Label("Using Buttons"),hBox);
+	}
+
+
+
+	public static void main(String[] args) { launch(args); }
 
 }
