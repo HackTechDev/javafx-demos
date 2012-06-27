@@ -39,9 +39,9 @@ public class FreeTextFieldDemo extends Application {
 		configureScene();
 		configureStage();
 		
-		ScrollFreeTextArea text1 = new ScrollFreeTextArea();
-		ScrollFreeTextArea text2 = new ScrollFreeTextArea();
-		ScrollFreeTextArea text3 = new ScrollFreeTextArea();
+		ScrollFreeTextArea2 text1 = new ScrollFreeTextArea2();
+		ScrollFreeTextArea2 text2 = new ScrollFreeTextArea2();
+		ScrollFreeTextArea2 text3 = new ScrollFreeTextArea2();
 		
 		/*FreeTextField text1 = new FreeTextField();
 		FreeTextField text2 = new FreeTextField();

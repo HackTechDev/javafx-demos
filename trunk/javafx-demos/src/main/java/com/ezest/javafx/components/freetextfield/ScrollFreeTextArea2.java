@@ -11,14 +11,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.StackPaneBuilder;
+import javafx.scene.text.Text;
 
-/**
- * TextArea component which does not have a scroll enabled.
- * @author Sai.Dandem
- */
-public class ScrollFreeTextArea extends StackPane{
+public class ScrollFreeTextArea2 extends StackPane{
 
-	private Label label;
+	private Text label;
 	private TextArea textArea;
 	private Character enterChar = new Character((char)10);
 	private Region content;
@@ -31,7 +28,7 @@ public class ScrollFreeTextArea extends StackPane{
 	private StackPane lblContainer;
 	private StackPane lblContainer2;
 	
-	public ScrollFreeTextArea(){
+	public ScrollFreeTextArea2(){
 		super();
 		configure();
 	}
@@ -56,9 +53,10 @@ public class ScrollFreeTextArea extends StackPane{
 		};
 		this.textArea.setWrapText(true);
 		
-		this.label =new Label();
-		this.label.setWrapText(true);
-		this.label.prefWidthProperty().bind(this.textArea.widthProperty());
+		this.label =new Text();
+
+		
+		//this.label.prefWidthProperty().bind(this.textArea.widthProperty());
 		//this.label.textProperty().bind(this.textArea.textProperty());
 		label.textProperty().bind(new StringBinding() {
 			{
@@ -66,19 +64,19 @@ public class ScrollFreeTextArea extends StackPane{
 			}
 			@Override
 			protected String computeValue() {
-				if(textArea.getText()!=null && textArea.getText().length()>0){
+				/*if(textArea.getText()!=null && textArea.getText().length()>0){
 					if(!((Character)textArea.getText().charAt(textArea.getText().length()-1)).equals(enterChar)){ 
 						System.out.println("enter added..");
 						return textArea.getText()+enterChar;
 					}
-				}
+				}*/
 				return textArea.getText();
 			}
 		});
 		
 		lblContainer = StackPaneBuilder.create()
 										  .alignment(Pos.TOP_LEFT)
-										  .padding(new Insets(4,7,7,7))
+										  .padding(new Insets(4,14,7,7))
 										  .children(label)
 										  .build();
 		lblContainer2 = StackPaneBuilder.create()
@@ -87,7 +85,12 @@ public class ScrollFreeTextArea extends StackPane{
 				  .build();
 
 		// Binding the container width to the TextArea width.
-		lblContainer.maxWidthProperty().bind(textArea.widthProperty());
+		//lblContainer.maxWidthProperty().bind(widthProperty());
+		lblContainer2.maxWidthProperty().bind(textArea.widthProperty());
+		lblContainer2.minWidthProperty().bind(textArea.widthProperty());
+		lblContainer2.prefWidthProperty().bind(textArea.widthProperty());
+		
+		this.label.wrappingWidthProperty().bind(lblContainer2.widthProperty());
 		
 		textArea.textProperty().addListener(new ChangeListener<String>() {
 			@Override
@@ -96,22 +99,21 @@ public class ScrollFreeTextArea extends StackPane{
 			}
 		});
 		
-		label.heightProperty().addListener(new ChangeListener<Number>() {
+		/*label.heightProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> paramObservableValue,	Number paramT1, Number paramT2) {
 				layoutForNewLine(textArea.getText());
 			}
-		});
+		});*/
 		
 		getChildren().addAll(lblContainer2,textArea);
 	}
 	
 	private void layoutForNewLine(String text){
-		if(text!=null && text.length()>0 && 
+		/*if(text!=null && text.length()>0 && 
 					((Character)text.charAt(text.length()-1)).equals(enterChar)){ 
 			textArea.setPrefHeight(label.getHeight() + NEW_LINE_HEIGHT + TOP_PADDING + BOTTOM_PADDING);
 			textArea.setMinHeight(label.getHeight() + NEW_LINE_HEIGHT + TOP_PADDING + BOTTOM_PADDING);
-			//setMinHeight(label.getHeight() + NEW_LINE_HEIGHT + TOP_PADDING + BOTTOM_PADDING);
 			lblContainer2.setPrefHeight(label.getHeight() + NEW_LINE_HEIGHT + TOP_PADDING + BOTTOM_PADDING);
 			lblContainer2.setMinHeight(label.getHeight() + NEW_LINE_HEIGHT + TOP_PADDING + BOTTOM_PADDING);
 			
@@ -120,11 +122,6 @@ public class ScrollFreeTextArea extends StackPane{
 			textArea.setMinHeight(label.getHeight() + TOP_PADDING + BOTTOM_PADDING);
 			lblContainer2.setPrefHeight(label.getHeight() + TOP_PADDING + BOTTOM_PADDING);
 			lblContainer2.setMinHeight(label.getHeight() + TOP_PADDING + BOTTOM_PADDING);
-			/*textArea.setPrefHeight(contentHeight.get() + TOP_PADDING + BOTTOM_PADDING);
-			textArea.setMinHeight(contentHeight.get() + TOP_PADDING + BOTTOM_PADDING);
-			*///setMinHeight(label.getHeight() + TOP_PADDING + BOTTOM_PADDING);
-			
-			
-		}
+		}*/
 	}
 }
