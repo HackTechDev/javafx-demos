@@ -3,6 +3,7 @@ package com.sai.javafx.demos;
 import javafx.scene.control.LabelBuilder;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.HBoxBuilder;
+import javafx.scene.layout.StackPaneBuilder;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.CircleBuilder;
 
@@ -15,6 +16,17 @@ public class RadialGradientDemo extends ExtendedApplicationX {
 		VBox vb = new VBox();
 		vb.setSpacing(10);
 		
+		// #9
+				vb.getChildren().add(HBoxBuilder.create()
+										.children(
+												LabelBuilder.create()
+													.text("#9").style("-fx-font-weight:bold;-fx-font-size:20;").build() 
+												,StackPaneBuilder.create().prefHeight(200).prefWidth(300)
+													.style("-fx-background-color:radial-gradient(center 50% 50%, radius 100%, #40E0D0, #3A5998);").build()
+												,LabelBuilder.create()
+													.text("-fx-background-color:radial-gradient(center 50% 50%, radius 100%, #40E0D0, #3A5998);").build() 
+												).build())	;	
+				
 		// #1
 		vb.getChildren().add(HBoxBuilder.create()
 								.children(
