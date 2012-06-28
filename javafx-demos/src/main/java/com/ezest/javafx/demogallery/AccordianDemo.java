@@ -108,6 +108,31 @@ public class AccordianDemo extends Application {
 		hb1.getChildren().addAll(new Text("Enter date : "), new FXCalendar());
 		
 		root.getChildren().addAll(comp,tp,gp,hb1);
+		
+		buildCusTree();
+	}
+
+	private void buildCusTree() {
+		VBox vBox = new VBox();
+		for (int i = 0; i < 10; i++) {
+			VBox vBox2 = new VBox();
+			vBox2.getChildren().add(new Text("One"));
+			vBox2.getChildren().add(new Text("Two"));
+			vBox2.getChildren().add(new Text("Three"));
+			vBox2.getChildren().add(new Text("Four"));
+			vBox2.getChildren().add(new Text("Five"));
+			vBox2.getChildren().add(new Text("Six"));
+			
+			TitledPane tp = new TitledPane();
+			tp.setPrefWidth(200);
+			tp.setExpanded(false);
+			tp.setText("Title Pane "+i);
+			tp.setContent(vBox2);
+			
+			vBox.getChildren().add(tp);
+		}
+		
+		root.getChildren().add(vBox);
 	}
 
 	private Group getDateImage(){

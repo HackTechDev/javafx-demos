@@ -71,6 +71,8 @@ public class InnerShadowEffectDemo extends Application {
 				.width(200)
 				.height(200)
 				.fill(Color.YELLOW)
+				.arcWidth(25)
+				.arcHeight(25)
 				.style(effectStr).build();
 		return sp3;
        

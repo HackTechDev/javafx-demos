@@ -1,6 +1,8 @@
 package com.ezest.javafx.components.freetextfield;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,6 +10,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPaneBuilder;
 import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
@@ -39,9 +42,9 @@ public class FreeTextFieldDemo extends Application {
 		configureScene();
 		configureStage();
 		
-		ScrollFreeTextArea2 text1 = new ScrollFreeTextArea2();
-		ScrollFreeTextArea2 text2 = new ScrollFreeTextArea2();
-		ScrollFreeTextArea2 text3 = new ScrollFreeTextArea2();
+		final ScrollFreeTextArea text1 = new ScrollFreeTextArea();
+		ScrollFreeTextArea text2 = new ScrollFreeTextArea();
+		ScrollFreeTextArea text3 = new ScrollFreeTextArea();
 		
 		/*FreeTextField text1 = new FreeTextField();
 		FreeTextField text2 = new FreeTextField();
@@ -57,8 +60,15 @@ public class FreeTextFieldDemo extends Application {
 								.padding(new Insets(15))
 								.children(vb).build();
 		
-		
-		root.getChildren().add(ScrollPaneBuilder.create().fitToHeight(true).fitToWidth(true).content(sp).build());
+		ScrollPane scroll = ScrollPaneBuilder.create().fitToHeight(true).fitToWidth(true).content(sp).build();
+		scroll.widthProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> paramObservableValue,Number paramT1, Number paramT2) {
+				System.out.println("Scroll Width : "+paramT2.doubleValue());
+				//text1.requestGroup();
+			}
+		});
+		root.getChildren().add(scroll);
 	}
 
 	private void configureStage(){
@@ -79,7 +89,7 @@ public class FreeTextFieldDemo extends Application {
 		bp.setCenter(root);
 		bp.autosize();
 		this.scene = new Scene(bp,600d,600d, Color.LEMONCHIFFON);
-		//scene.getStylesheets().add("styles/template.css");
+		//scene.getStylesheets().addAll("styles/template.css","styles/template.css");
 	}
 	
 	private Node getBottom() {
