@@ -65,6 +65,22 @@ public class CustomTextField extends TextField{
     				if (getText().length()> (getSize()-1) ) return false;
     			}
     			break;
+    		case COLOR_CODE:
+    			if(getText()!=null){
+    				newTxt = (getText()!=null ? getText() : "") +text;
+        			// If the new text does not satisfy the color code characters.
+    				if (!newTxt.matches("^[#]?[a-fA-F0-9]*")){
+        				return false;
+        			}
+        			
+    				// If the new text length is exceeded.
+    				if((newTxt.indexOf("#") == 0) && (newTxt.length()>7) ){
+    					return false;
+    				}else if((newTxt.indexOf("#") == -1) && (newTxt.length()>6)){
+    					return false;
+    				}
+    			}
+    			break;
     	}
     	
     	return true;
