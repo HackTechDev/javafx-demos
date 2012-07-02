@@ -43,7 +43,7 @@ public class ColorChooserSample extends Application {
     // monitor the color chooser's chosen color and respond to it.
     colorChooser.chosenColorProperty().addListener(new ChangeListener<Color>() {
       @Override public void changed(ObservableValue<? extends Color> observableValue, Color oldColor, Color newColor) {
-        System.out.println("Chose: " + colorChooser.getChosenColorName() + " " + colorChooser.getChosenColor());
+    	 System.out.println("Chose: " + colorChooser.getChosenColorName() + " " + colorChooser.getChosenColor());
       }
     });
   }

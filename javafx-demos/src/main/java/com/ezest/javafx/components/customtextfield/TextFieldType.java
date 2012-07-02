@@ -9,5 +9,6 @@ public enum TextFieldType {
 	ALPHABETS,
 	ALPHA_NUMERIC,
 	MONEY,
-	SIZE_RESTRICT
+	SIZE_RESTRICT,
+	COLOR_CODE
 }

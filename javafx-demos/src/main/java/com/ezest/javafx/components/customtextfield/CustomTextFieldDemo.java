@@ -44,8 +44,9 @@ public class CustomTextFieldDemo extends Application {
 		t.setSize(10);
 		HBox hb6 = HBoxBuilder.create().spacing(10).children(new Label("SIZE_RESTRICT-10   : "), t).build();
 		
+		HBox hb7 = HBoxBuilder.create().spacing(10).children(new Label("COLOR_CODE_ONLY   : "), new CustomTextField(TextFieldType.COLOR_CODE)).build();
 		
-		vb.getChildren().addAll(hb1, hb2, hb3, hb4, hb5, hb6 );
+		vb.getChildren().addAll(hb1, hb2, hb3, hb4, hb5, hb6, hb7 );
 		
 	}
 
