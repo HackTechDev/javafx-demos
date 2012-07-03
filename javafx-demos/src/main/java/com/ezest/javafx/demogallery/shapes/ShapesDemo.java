@@ -92,7 +92,7 @@ public class ShapesDemo extends Application {
 	private void createCurve() {
 		StackPane sp = new StackPane();
 		sp.setPrefSize(60, 60);
-		sp.getStyleClass().add("circle-shape");
+		sp.getStyleClass().add("curve-shape");
 		root.getChildren().add(sp);
 		
 		MainModel model = new MainModel();
