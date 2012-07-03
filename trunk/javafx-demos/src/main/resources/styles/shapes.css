@@ -19,11 +19,15 @@
 }
 
 .curve-shape{
+	-fx-background-color: yellow;
+	-fx-shape: "M100,100 C100,0 200,0 200,100 C200,200 100,200 100,100"; /* Ref : http://www.w3.org/TR/SVG/paths.html */
+}
+.curve-shape1{
 	-fx-background-color: linear (0%,0%) to (0%,100%) stops (0%, derive(red,80%)) (25%, derive(red,40%)) (50%, derive(red,0%)) (98%, derive(red,-20%)) (100%, derive(red,-50%)); /*derive(-fx-base,-10%); #214078;*/
 	-fx-shape: "M100,200 C100,100 250,100 250,200 S400,300 400,200";
 }
 .circle-shape{
-	-fx-background-color: yellow;
+	-fx-background-color: black;
 	-fx-shape: "M100,200 C100,100 250,100 250";
 	}
 	
