@@ -1,0 +1,10 @@
+.rounded-progress-bar .bar { 
+    -fx-background-radius: 5; 
+}
+.rounded-progress-bar .track { 
+    -fx-background-radius: 5; 
+}
+ 
+.rounded-progress-bar {
+    -fx-background-radius: 5;     
+}
