@@ -36,9 +36,21 @@ public class ShapesDemo extends Application {
 		createSquare();
 		createOctagone();
 		createCurve();
+		createCircle();
 	}
 
 	
+	private void createCircle() {
+		StackPane sp = new StackPane();
+		sp.setPrefSize(60, 60);
+		sp.getStyleClass().add("circle-arc-shape");
+		
+		StackPane sp1 = new StackPane();
+		sp1.setStyle("-fx-border-color:red;-fx-border-width:1px;");
+		sp1.getChildren().add(sp);
+		root.getChildren().add(sp1);
+	}
+
 	private void configureStage(){
 		stage.setTitle("Shapes Demo");
 		stage.setX(0);
