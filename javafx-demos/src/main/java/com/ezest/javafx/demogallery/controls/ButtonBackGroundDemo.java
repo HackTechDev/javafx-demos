@@ -1,35 +1,25 @@
-package com.ezest.javafx.components.freetextfield;
+package com.ezest.javafx.demogallery.controls;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPaneBuilder;
+import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBoxBuilder;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.StackPaneBuilder;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import com.javafx.experiments.scenicview.ScenicView;
 
-public class FreeTextFieldDemo extends Application {
+public class ButtonBackGroundDemo extends Application {
 
 	Stage stage;
 	Scene scene;
@@ -43,18 +33,18 @@ public class FreeTextFieldDemo extends Application {
 		this.stage = stage;
 		configureScene();
 		configureStage();
-		VBox vb = VBoxBuilder.create().spacing(15).build();
 		
-		FreeTextField ff = new FreeTextField();
-		vb.getChildren().add(HBoxBuilder.create().children(ff).build());
-		root.getChildren().add(vb);
+		Button btn = new Button("Search");
+		btn.getStyleClass().add("my-btn");
+		btn.setPrefSize(90, 28);
+		root.getChildren().add(btn);
 	}
 
 	private void configureStage(){
 		stage.setTitle(this.getClass().getSimpleName());
 		stage.setX(0);
 	    stage.setY(0);
-	    stage.setWidth(600);
+	    stage.setWidth(Screen.getPrimary().getVisualBounds().getWidth());
 	    stage.setHeight(Screen.getPrimary().getVisualBounds().getHeight());
 	    stage.setScene(this.scene);
 	    stage.show();
@@ -62,15 +52,14 @@ public class FreeTextFieldDemo extends Application {
 	
 	private void configureScene(){
 		root = new StackPane();
-		root.setPadding(new Insets(15));
 		BorderPane bp = new BorderPane();
 		bp.setBottom(getBottom());
 		bp.setCenter(root);
 		bp.autosize();
-		this.scene = new Scene(bp,600d,600d, Color.LEMONCHIFFON);
-		//scene.getStylesheets().addAll("styles/template.css","styles/template.css");
+		this.scene = new Scene(bp, Color.LINEN);
+		scene.getStylesheets().add("styles/buttonbackground.css");
 	}
-	
+
 	private Node getBottom() {
 		StackPane sp = new StackPane();
 		sp.setMinHeight(25);
@@ -88,5 +77,5 @@ public class FreeTextFieldDemo extends Application {
 		sp.getChildren().addAll(new Separator(),image);
 		return sp;
 	}
-}
 
+}
