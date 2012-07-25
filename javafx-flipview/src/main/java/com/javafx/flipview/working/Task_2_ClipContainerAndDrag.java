@@ -1,9 +1,6 @@
 package com.javafx.flipview.working;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.sun.xml.internal.bind.v2.runtime.output.ForkXmlOutput;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
