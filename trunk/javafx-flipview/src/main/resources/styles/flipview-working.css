@@ -1,19 +1,20 @@
-.bgOrange{
-	-fx-background-color:#ffd4aa;
-	-fx-border-color:black;
-	-fx-border-width:1px;
-}
-.bgGreen{
-	-fx-background-color:#d4ffd4;
-	-fx-border-color:black;
-	-fx-border-width:1px;
-}
-.bgRed{
-	-fx-background-color:#ff7f7f;
-	-fx-border-color:black;
-	-fx-border-width:1px;
+.numberPlate1{
+	-fx-background-color:linear-gradient(to bottom, #ffe4c4, #ff7f50);
 }
 
-.numberPlate{
-	-fx-background-color:linear-gradient(to bottom, #ffe4c4, #ff7f50);
+.numberPlate2{
+	-fx-background-color:linear-gradient(to bottom, #e0ffff, #708090);
+}
+
+.numberPlate3{
+	-fx-background-color:linear-gradient(to bottom, #d2b48c, #a0522d);
+}
+
+.numberPlate4{
+	-fx-background-color:linear-gradient(to bottom, #fffaf0, #4169e1);
+}
+
+.flip-view{
+	-fx-border-color:gray;
+	-fx-border-width:1px;
 }
