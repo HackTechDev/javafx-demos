@@ -1,6 +1,5 @@
 package com.javafx.flipview.working;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +28,7 @@ import javafx.scene.layout.GridPaneBuilder;
 import javafx.scene.layout.RowConstraintsBuilder;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.StackPaneBuilder;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 public class Task_2_ClipContainerAndDrag  extends ExtendApplication{
@@ -39,23 +39,17 @@ public class Task_2_ClipContainerAndDrag  extends ExtendApplication{
 	
 	@Override
 	public void configure() {
-		
-		StackPane sp1 = StackPaneBuilder.create().styleClass("bgOrange").build();
-		StackPane sp2 = StackPaneBuilder.create().styleClass("numberPlate").children(getNumberGrid()).build();
-		StackPane sp3 = StackPaneBuilder.create().styleClass("bgRed").translateX(40).translateY(40).build();
-		
-		//StackPane contianer = StackPaneBuilder.create().alignment(Pos.TOP_LEFT).maxHeight(pageHeight).maxWidth(pageWidth*2).build();
-		
-		//contianer.getChildren().addAll(sp1,sp2);
-		FlipViewContainer flipView = new FlipViewContainer(550,550);
+		StackPane sp1 = StackPaneBuilder.create().styleClass("numberPlate1").children(getNumberGrid()).build();
+		StackPane sp2 = StackPaneBuilder.create().styleClass("numberPlate2").children(getNumberGrid()).build();
+		StackPane sp3 = StackPaneBuilder.create().styleClass("numberPlate3").children(getNumberGrid()).build();
+		StackPane sp4 = StackPaneBuilder.create().styleClass("numberPlate4").children(getNumberGrid()).build();
 		
 		ObservableList<Node> nodes = FXCollections.observableArrayList();
-		nodes.addAll(sp1, sp2, sp3);
+		nodes.addAll(sp1, sp2, sp3, sp4);
 		
+		FlipViewContainer flipView = new FlipViewContainer(550,550);
 		flipView.addNodesAsPages(nodes);
 		getRoot().getChildren().add(flipView);
-		
-		
 	}
 	
 	private GridPane getNumberGrid(){
@@ -123,13 +117,36 @@ class FlipViewContainer extends StackPane{
 		}
 	};
 	
+	private ChangeListener<FlipPage> leftPageListener = new ChangeListener<FlipPage>() {
+		@Override
+		public void changed(ObservableValue<? extends FlipPage> paramObservableValue,FlipPage paramT1, FlipPage page) {
+			if(page!=null){
+				page.setTranslateX(0);
+				page.setTranslateY(0);
+			}
+		}
+	};
+	
+	private ChangeListener<FlipPage> rightPageListener = new ChangeListener<FlipPage>() {
+		@Override
+		public void changed(ObservableValue<? extends FlipPage> paramObservableValue,FlipPage paramT1, FlipPage page) {
+			if(page!=null){
+				page.setTranslateX(pageWidth);
+				page.setTranslateY(0);
+			}
+		}
+	};
+	
 	
 	
 	private ListChangeListener<FlipPage> pagesListener = new ListChangeListener<FlipPage>(){
 		@Override
 		public void onChanged(javafx.collections.ListChangeListener.Change<? extends FlipPage> paramChange) {
-			setNextPage(pages.get(1));
-			getChildren().add(nextPage.get());
+			getChildren().addAll(pages);
+			setPrevPage(pages.get(0));
+			setLeftPage(pages.get(1));
+			setRightPage(pages.get(2));
+			setNextPage(pages.get(3));
 		}
 	};
 	
@@ -148,28 +165,51 @@ class FlipViewContainer extends StackPane{
 		getStyleClass().add("flip-view");
 		setAlignment(Pos.TOP_LEFT);
 		configureListeners();
+		
+		containerClip.setWidth((pageWidth*2)+2);
+		containerClip.setHeight(pageHeight+2);
+		this.setClip(containerClip);
 	}
 	
 	private void configureListeners() {
 		prevPage.addListener(prevPageListener);
 		nextPage.addListener(nextPageListener);
+		leftPage.addListener(leftPageListener);
+		rightPage.addListener(rightPageListener);
 	}
 
+	public void setLeftPage(FlipPage fp){
+		removeMouseListeners(fp);
+		leftPage.set(fp);
+	}
+	
+	public void setRightPage(FlipPage fp){
+		removeMouseListeners(fp);
+		rightPage.set(fp);
+	}
+	
 	public void setPrevPage(FlipPage fp){
-		prevPage.set(fp);
 		if(prevPage.get()!=null){
-			// TODO : remove the drag listener
+			removeMouseListeners(prevPage.get());
 		}
 		prevPage.set(fp);
+		prevPage.get().toFront();
 		addPrevPageDragListeners(prevPage.get());
 	}
 	
 	public void setNextPage(FlipPage fp){
 		if(nextPage.get()!=null){
-			// TODO : remove the drag listener
+			removeMouseListeners(nextPage.get());
 		}
 		nextPage.set(fp);
+		nextPage.get().toFront();
 		addNextPageDragListeners(nextPage.get());
+	}
+	
+	private void removeMouseListeners(Node fp){
+		fp.setOnMousePressed(null);
+		fp.setOnMouseReleased(null);
+		fp.setOnMouseDragged(null);
 	}
 	
 	public void addNodesAsPages(List<Node> nodes){
@@ -195,7 +235,7 @@ class FlipViewContainer extends StackPane{
 		return pages;
 	}
 	
-	private void goToStart(Node n){
+	private void goToPrevPageStart(Node n){
 		timelineClose.stop();
 		timelineClose.setCycleCount(1); 
 		timelineClose.setAutoReverse(true);
@@ -206,13 +246,19 @@ class FlipViewContainer extends StackPane{
 		timelineClose.play();
 	}
 	
+	private void goToNextPageStart(Node n){
+		timelineClose.stop();
+		timelineClose.setCycleCount(1); 
+		timelineClose.setAutoReverse(true);
+		KeyValue kv1 = new KeyValue(n.translateXProperty(), (2*pageWidth)-cornerTriSize);
+		KeyValue kv2 = new KeyValue(n.translateYProperty(), -(pageHeight-cornerTriSize));
+		KeyFrame kf1 = new KeyFrame(Duration.valueOf("320ms"), kv1, kv2);
+		timelineClose.getKeyFrames().add(kf1);
+		timelineClose.play();
+	}
 	
 	
-	/**
-	 * Method to add the drag feature to the pop up.
-	 * 
-	 * @param n
-	 */
+	
 	private void addPrevPageDragListeners(final Node n) {
 		n.setOnMousePressed(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent me) {
@@ -225,7 +271,7 @@ class FlipViewContainer extends StackPane{
 		
 		n.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent me) {
-				goToStart(n);
+				goToPrevPageStart(n);
 			}
 		});
 		
@@ -242,7 +288,35 @@ class FlipViewContainer extends StackPane{
 			}
 		});
 	}
-	
+	private void addNextPageDragListeners(final Node n) {
+		n.setOnMousePressed(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent me) {
+				startDragX = me.getSceneX();
+				startDragY = me.getSceneY();
+				startNodeX = n.getTranslateX();
+				startNodeY = n.getTranslateY();
+			}
+		});
+		
+		n.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent me) {
+				goToNextPageStart(n);
+			}
+		});
+		
+		n.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent me) {
+				double xTr = startNodeX+(me.getSceneX() - startDragX);
+				//if(xTr<0) xTr = 0;
+				
+				double yTr = startNodeY+(me.getSceneY() - startDragY);
+				//if(yTr<0) yTr = 0;
+				
+				n.setTranslateX(xTr);
+				n.setTranslateY(yTr);
+			}
+		});
+	}
 }// eo FlipViewContainer
 
 /**
