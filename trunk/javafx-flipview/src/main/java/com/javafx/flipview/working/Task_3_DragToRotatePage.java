@@ -28,7 +28,7 @@ import javafx.scene.layout.StackPaneBuilder;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-public class Task_2_ClipContainerAndDrag  extends ExtendApplication{
+public class Task_3_DragToRotatePage extends ExtendApplication{
 	public static void main(String[] args) {
 		Application.launch(args);
 	}
@@ -44,7 +44,7 @@ public class Task_2_ClipContainerAndDrag  extends ExtendApplication{
 		ObservableList<Node> nodes = FXCollections.observableArrayList();
 		nodes.addAll(sp1, sp2, sp3, sp4);
 		
-		FlipViewContainer2 flipView = new FlipViewContainer2(550,550);
+		FlipViewContainer3 flipView = new FlipViewContainer3(550,550);
 		flipView.addNodesAsPages(nodes);
 		getRoot().getChildren().add(flipView);
 	}
@@ -73,7 +73,7 @@ public class Task_2_ClipContainerAndDrag  extends ExtendApplication{
  * Flip View Container.
  * @author Sai.Dandem
   */
-class FlipViewContainer2 extends StackPane{
+class FlipViewContainer3 extends StackPane{
 	private double pageWidth;
 	private double pageHeight;
 	private double cornerTriSize;
@@ -86,15 +86,15 @@ class FlipViewContainer2 extends StackPane{
 	
 	private Rectangle containerClip = new Rectangle();
 	
-	private ObservableList<FlipPage2> pages = FXCollections.observableArrayList();
-	private SimpleObjectProperty<FlipPage2> prevPage = new SimpleObjectProperty<FlipPage2>();
-	private SimpleObjectProperty<FlipPage2> nextPage = new SimpleObjectProperty<FlipPage2>();
-	private SimpleObjectProperty<FlipPage2> leftPage = new SimpleObjectProperty<FlipPage2>();
-	private SimpleObjectProperty<FlipPage2> rightPage = new SimpleObjectProperty<FlipPage2>();
+	private ObservableList<FlipPage3> pages = FXCollections.observableArrayList();
+	private SimpleObjectProperty<FlipPage3> prevPage = new SimpleObjectProperty<FlipPage3>();
+	private SimpleObjectProperty<FlipPage3> nextPage = new SimpleObjectProperty<FlipPage3>();
+	private SimpleObjectProperty<FlipPage3> leftPage = new SimpleObjectProperty<FlipPage3>();
+	private SimpleObjectProperty<FlipPage3> rightPage = new SimpleObjectProperty<FlipPage3>();
 	
-	private ChangeListener<FlipPage2> prevPageListener = new ChangeListener<FlipPage2>() {
+	private ChangeListener<FlipPage3> prevPageListener = new ChangeListener<FlipPage3>() {
 		@Override
-		public void changed(ObservableValue<? extends FlipPage2> paramObservableValue,FlipPage2 paramT1, FlipPage2 page) {
+		public void changed(ObservableValue<? extends FlipPage3> paramObservableValue,FlipPage3 paramT1, FlipPage3 page) {
 			if(page!=null){
 				page.setRotate(90);
 				double d = -(pageWidth + ((pageHeight-pageWidth)/2))+cornerTriSize;
@@ -104,9 +104,9 @@ class FlipViewContainer2 extends StackPane{
 		}
 	};
 	
-	private ChangeListener<FlipPage2> nextPageListener = new ChangeListener<FlipPage2>() {
+	private ChangeListener<FlipPage3> nextPageListener = new ChangeListener<FlipPage3>() {
 		@Override
-		public void changed(ObservableValue<? extends FlipPage2> paramObservableValue,FlipPage2 paramT1, FlipPage2 page) {
+		public void changed(ObservableValue<? extends FlipPage3> paramObservableValue,FlipPage3 paramT1, FlipPage3 page) {
 			if(page!=null){
 				double w = ((pageHeight-pageWidth)/2)+ (2*pageWidth-cornerTriSize);
 				double h = -(pageWidth + ((pageHeight-pageWidth)/2))+cornerTriSize;
@@ -117,9 +117,9 @@ class FlipViewContainer2 extends StackPane{
 		}
 	};
 	
-	private ChangeListener<FlipPage2> leftPageListener = new ChangeListener<FlipPage2>() {
+	private ChangeListener<FlipPage3> leftPageListener = new ChangeListener<FlipPage3>() {
 		@Override
-		public void changed(ObservableValue<? extends FlipPage2> paramObservableValue,FlipPage2 paramT1, FlipPage2 page) {
+		public void changed(ObservableValue<? extends FlipPage3> paramObservableValue,FlipPage3 paramT1, FlipPage3 page) {
 			if(page!=null){
 				page.setTranslateX(0);
 				page.setTranslateY(0);
@@ -127,9 +127,9 @@ class FlipViewContainer2 extends StackPane{
 		}
 	};
 	
-	private ChangeListener<FlipPage2> rightPageListener = new ChangeListener<FlipPage2>() {
+	private ChangeListener<FlipPage3> rightPageListener = new ChangeListener<FlipPage3>() {
 		@Override
-		public void changed(ObservableValue<? extends FlipPage2> paramObservableValue,FlipPage2 paramT1, FlipPage2 page) {
+		public void changed(ObservableValue<? extends FlipPage3> paramObservableValue,FlipPage3 paramT1, FlipPage3 page) {
 			if(page!=null){
 				page.setTranslateX(pageWidth);
 				page.setTranslateY(0);
@@ -139,9 +139,9 @@ class FlipViewContainer2 extends StackPane{
 	
 	
 	
-	private ListChangeListener<FlipPage2> pagesListener = new ListChangeListener<FlipPage2>(){
+	private ListChangeListener<FlipPage3> pagesListener = new ListChangeListener<FlipPage3>(){
 		@Override
-		public void onChanged(javafx.collections.ListChangeListener.Change<? extends FlipPage2> paramChange) {
+		public void onChanged(javafx.collections.ListChangeListener.Change<? extends FlipPage3> paramChange) {
 			getChildren().addAll(pages);
 			setPrevPage(pages.get(0));
 			setLeftPage(pages.get(1));
@@ -150,7 +150,7 @@ class FlipViewContainer2 extends StackPane{
 		}
 	};
 	
-	public FlipViewContainer2(double pageWidth, double pageHeight) {
+	public FlipViewContainer3(double pageWidth, double pageHeight) {
 		super();
 		this.pageWidth = pageWidth;
 		this.pageHeight = pageHeight;
@@ -178,17 +178,17 @@ class FlipViewContainer2 extends StackPane{
 		rightPage.addListener(rightPageListener);
 	}
 
-	public void setLeftPage(FlipPage2 fp){
+	public void setLeftPage(FlipPage3 fp){
 		removeMouseListeners(fp);
 		leftPage.set(fp);
 	}
 	
-	public void setRightPage(FlipPage2 fp){
+	public void setRightPage(FlipPage3 fp){
 		removeMouseListeners(fp);
 		rightPage.set(fp);
 	}
 	
-	public void setPrevPage(FlipPage2 fp){
+	public void setPrevPage(FlipPage3 fp){
 		if(prevPage.get()!=null){
 			removeMouseListeners(prevPage.get());
 		}
@@ -197,7 +197,7 @@ class FlipViewContainer2 extends StackPane{
 		addPrevPageDragListeners(prevPage.get());
 	}
 	
-	public void setNextPage(FlipPage2 fp){
+	public void setNextPage(FlipPage3 fp){
 		if(nextPage.get()!=null){
 			removeMouseListeners(nextPage.get());
 		}
@@ -213,9 +213,9 @@ class FlipViewContainer2 extends StackPane{
 	}
 	
 	public void addNodesAsPages(List<Node> nodes){
-		ObservableList<FlipPage2> dumPages = FXCollections.observableArrayList();
+		ObservableList<FlipPage3> dumPages = FXCollections.observableArrayList();
 		for (Node node : nodes) {
-			FlipPage2 page = new FlipPage2(node);
+			FlipPage3 page = new FlipPage3(node);
 			page.setPageSize(pageWidth, pageHeight);
 			dumPages.add(page);
 		}
@@ -223,15 +223,15 @@ class FlipViewContainer2 extends StackPane{
 		pages.addAll(dumPages);
 	}
 	
-	private void setNumbersToPages(ObservableList<FlipPage2> dumPages) {
+	private void setNumbersToPages(ObservableList<FlipPage3> dumPages) {
 		int i=0;
-		for (FlipPage2 page : dumPages) {
+		for (FlipPage3 page : dumPages) {
 			page.setPageNo(i);
 			i++;
 		}
 	}
 
-	public ObservableList<FlipPage2> getPages(){
+	public ObservableList<FlipPage3> getPages(){
 		return pages;
 	}
 	
@@ -320,16 +320,16 @@ class FlipViewContainer2 extends StackPane{
 			}
 		});
 	}
-}// eo FlipViewContainer2
+}// eo FlipViewContainer3
 
 /**
  * Flip Page.
  * @author Sai.Dandem
   */
-class FlipPage2 extends StackPane{
+class FlipPage3 extends StackPane{
 	private int pageNo;
 	
-	public FlipPage2(Node nd) {
+	public FlipPage3(Node nd) {
 		super();
 		setAlignment(Pos.TOP_LEFT);
 		getChildren().add(nd);
@@ -349,6 +349,7 @@ class FlipPage2 extends StackPane{
 		this.pageNo = pageNo;
 	}
 	
-}// eo FlipPage2
+}// eo FlipPage3
+
 
 
