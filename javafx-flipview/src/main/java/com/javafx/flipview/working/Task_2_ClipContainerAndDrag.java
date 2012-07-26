@@ -97,8 +97,9 @@ class FlipViewContainer extends StackPane{
 		public void changed(ObservableValue<? extends FlipPage> paramObservableValue,FlipPage paramT1, FlipPage page) {
 			if(page!=null){
 				page.setRotate(90);
-				page.setTranslateX(-(pageWidth-cornerTriSize));
-				page.setTranslateY(-(pageHeight-cornerTriSize));
+				double d = -(pageWidth + ((pageHeight-pageWidth)/2))+cornerTriSize;
+				page.setTranslateX(d);
+				page.setTranslateY(d);
 			}
 		}
 	};
@@ -107,9 +108,11 @@ class FlipViewContainer extends StackPane{
 		@Override
 		public void changed(ObservableValue<? extends FlipPage> paramObservableValue,FlipPage paramT1, FlipPage page) {
 			if(page!=null){
+				double w = ((pageHeight-pageWidth)/2)+ (2*pageWidth-cornerTriSize);
+				double h = -(pageWidth + ((pageHeight-pageWidth)/2))+cornerTriSize;
 				page.setRotate(-90);
-				page.setTranslateX((2*pageWidth)-cornerTriSize);
-				page.setTranslateY(-(pageHeight-cornerTriSize));
+				page.setTranslateX(w);
+				page.setTranslateY(h);
 			}
 		}
 	};
@@ -233,22 +236,25 @@ class FlipViewContainer extends StackPane{
 	}
 	
 	private void goToPrevPageStart(Node n){
+		double d = -(pageWidth + ((pageHeight-pageWidth)/2))+cornerTriSize;
 		timelineClose.stop();
 		timelineClose.setCycleCount(1); 
 		timelineClose.setAutoReverse(true);
-		KeyValue kv1 = new KeyValue(n.translateXProperty(), -(pageWidth-cornerTriSize));
-		KeyValue kv2 = new KeyValue(n.translateYProperty(), -(pageHeight-cornerTriSize));
+		KeyValue kv1 = new KeyValue(n.translateXProperty(), d);
+		KeyValue kv2 = new KeyValue(n.translateYProperty(), d);
 		KeyFrame kf1 = new KeyFrame(Duration.valueOf("320ms"), kv1, kv2);
 		timelineClose.getKeyFrames().add(kf1);
 		timelineClose.play();
 	}
 	
 	private void goToNextPageStart(Node n){
+		double w = ((pageHeight-pageWidth)/2)+ (2*pageWidth-cornerTriSize);
+		double h = -(pageWidth + ((pageHeight-pageWidth)/2))+ cornerTriSize;
 		timelineClose.stop();
 		timelineClose.setCycleCount(1); 
 		timelineClose.setAutoReverse(true);
-		KeyValue kv1 = new KeyValue(n.translateXProperty(), (2*pageWidth)-cornerTriSize);
-		KeyValue kv2 = new KeyValue(n.translateYProperty(), -(pageHeight-cornerTriSize));
+		KeyValue kv1 = new KeyValue(n.translateXProperty(), w);
+		KeyValue kv2 = new KeyValue(n.translateYProperty(), h);
 		KeyFrame kf1 = new KeyFrame(Duration.valueOf("320ms"), kv1, kv2);
 		timelineClose.getKeyFrames().add(kf1);
 		timelineClose.play();
