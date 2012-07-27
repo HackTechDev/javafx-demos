@@ -2,6 +2,9 @@ package com.javafx.flipview.working;
 
 import java.util.List;
 
+import com.sun.javafx.geom.Dimension2D;
+
+import javafx.animation.Animation.Status;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -13,7 +16,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
@@ -74,9 +79,13 @@ public class Task_3_DragToRotatePage extends ExtendApplication{
  * @author Sai.Dandem
   */
 class FlipViewContainer3 extends StackPane{
-	private double pageWidth;
-	private double pageHeight;
+	private Dimension2D pageDimension;
 	private double cornerTriSize;
+	
+	private Point2D prevCornerStartPoint;
+	private Point2D prevCornerEndPoint ;
+	private Point2D nextCornerStartPoint ;
+	private Point2D nextCornerEndPoint;
 	
 	private double startDragX;
 	private double startDragY;
@@ -97,9 +106,11 @@ class FlipViewContainer3 extends StackPane{
 		public void changed(ObservableValue<? extends FlipPage3> paramObservableValue,FlipPage3 paramT1, FlipPage3 page) {
 			if(page!=null){
 				page.setRotate(90);
-				double d = -(pageWidth + ((pageHeight-pageWidth)/2))+cornerTriSize;
-				page.setTranslateX(d);
-				page.setTranslateY(d);
+				double d = -(pageDimension.width + ((pageDimension.height-pageDimension.width)/2))+cornerTriSize;
+				prevCornerStartPoint = new Point2D(-pageDimension.width, -pageDimension.height);
+				prevCornerEndPoint = new Point2D(d, d);
+				page.setTranslateX(prevCornerStartPoint.getX());
+				page.setTranslateY(prevCornerStartPoint.getY());
 			}
 		}
 	};
@@ -108,11 +119,14 @@ class FlipViewContainer3 extends StackPane{
 		@Override
 		public void changed(ObservableValue<? extends FlipPage3> paramObservableValue,FlipPage3 paramT1, FlipPage3 page) {
 			if(page!=null){
-				double w = ((pageHeight-pageWidth)/2)+ (2*pageWidth-cornerTriSize);
-				double h = -(pageWidth + ((pageHeight-pageWidth)/2))+cornerTriSize;
+				double w = ((pageDimension.height-pageDimension.width)/2)+ (2*pageDimension.width-cornerTriSize);
+				double h = -(pageDimension.width + ((pageDimension.height-pageDimension.width)/2))+cornerTriSize;
+				nextCornerStartPoint = new Point2D(2*pageDimension.width, -pageDimension.height);
+				nextCornerEndPoint = new Point2D(w, h);
+				
 				page.setRotate(-90);
-				page.setTranslateX(w);
-				page.setTranslateY(h);
+				page.setTranslateX(nextCornerEndPoint.getX());
+				page.setTranslateY(nextCornerEndPoint.getY());
 			}
 		}
 	};
@@ -131,7 +145,7 @@ class FlipViewContainer3 extends StackPane{
 		@Override
 		public void changed(ObservableValue<? extends FlipPage3> paramObservableValue,FlipPage3 paramT1, FlipPage3 page) {
 			if(page!=null){
-				page.setTranslateX(pageWidth);
+				page.setTranslateX(pageDimension.width);
 				page.setTranslateY(0);
 			}
 		}
@@ -152,13 +166,12 @@ class FlipViewContainer3 extends StackPane{
 	
 	public FlipViewContainer3(double pageWidth, double pageHeight) {
 		super();
-		this.pageWidth = pageWidth;
-		this.pageHeight = pageHeight;
-		this.cornerTriSize = (pageWidth*.01*10); // 10% of width
+		this.pageDimension = new Dimension2D(new Float(pageWidth), new Float(pageHeight));
+		this.cornerTriSize = (this.pageDimension.width*.01*10); // 10% of width
 		
-		setMaxSize(pageWidth*2, pageHeight);
-		setPrefSize(pageWidth*2, pageHeight);
-		setMinSize(pageWidth*2, pageHeight);
+		setMaxSize(this.pageDimension.width*2, this.pageDimension.height);
+		setPrefSize(this.pageDimension.width*2, this.pageDimension.height);
+		setMinSize(this.pageDimension.width*2, this.pageDimension.height);
 		
 		pages.addListener(pagesListener);
 		
@@ -166,8 +179,8 @@ class FlipViewContainer3 extends StackPane{
 		setAlignment(Pos.TOP_LEFT);
 		configureListeners();
 		
-		containerClip.setWidth((pageWidth*2)+2);
-		containerClip.setHeight(pageHeight+2);
+		containerClip.setWidth((this.pageDimension.width*2)+2);
+		containerClip.setHeight(this.pageDimension.height+2);
 		this.setClip(containerClip);
 	}
 	
@@ -176,8 +189,29 @@ class FlipViewContainer3 extends StackPane{
 		nextPage.addListener(nextPageListener);
 		leftPage.addListener(leftPageListener);
 		rightPage.addListener(rightPageListener);
+		
+		this.setOnMouseMoved(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent m) {
+				if(isInPrevPageRange(m.getX(), m.getY())){
+					System.out.println("In range");
+					if(prevPage.get().getTranslateX()!=prevCornerEndPoint.getX() || prevPage.get().getTranslateY()!=prevCornerEndPoint.getY()){
+						animatePageMove(prevPage.get(), prevCornerEndPoint, "100ms");
+					}
+				}else{
+					System.out.println("Not In range");
+					if(prevPage.get().getTranslateX()!=prevCornerStartPoint.getX() || prevPage.get().getTranslateY()!=prevCornerStartPoint.getY()){
+						animatePageMove(prevPage.get(), prevCornerStartPoint, "100ms");
+					}
+				}
+			}
+		});
 	}
 
+	private boolean isInPrevPageRange(double x, double y){
+		return (x>=0 && x<=(2*cornerTriSize)) && (y>=0 && y<=(2*cornerTriSize)) ? true : false;
+	}
+	
 	public void setLeftPage(FlipPage3 fp){
 		removeMouseListeners(fp);
 		leftPage.set(fp);
@@ -216,7 +250,7 @@ class FlipViewContainer3 extends StackPane{
 		ObservableList<FlipPage3> dumPages = FXCollections.observableArrayList();
 		for (Node node : nodes) {
 			FlipPage3 page = new FlipPage3(node);
-			page.setPageSize(pageWidth, pageHeight);
+			page.setPageSize(pageDimension.width, pageDimension.height);
 			dumPages.add(page);
 		}
 		setNumbersToPages(dumPages);
@@ -235,32 +269,19 @@ class FlipViewContainer3 extends StackPane{
 		return pages;
 	}
 	
-	private void goToPrevPageStart(Node n){
-		double d = -(pageWidth + ((pageHeight-pageWidth)/2))+cornerTriSize;
-		timelineClose.stop();
-		timelineClose.setCycleCount(1); 
-		timelineClose.setAutoReverse(true);
-		KeyValue kv1 = new KeyValue(n.translateXProperty(), d);
-		KeyValue kv2 = new KeyValue(n.translateYProperty(), d);
-		KeyFrame kf1 = new KeyFrame(Duration.valueOf("320ms"), kv1, kv2);
-		timelineClose.getKeyFrames().add(kf1);
-		timelineClose.play();
+	private void animatePageMove(Node n, Point2D location, String time){
+		System.out.println("moving to "+location);
+		if(timelineClose.getStatus() != Status.RUNNING){
+			timelineClose = new Timeline();
+			timelineClose.setCycleCount(1); 
+			timelineClose.setAutoReverse(true);
+			KeyValue kv1 = new KeyValue(n.translateXProperty(), location.getX());
+			KeyValue kv2 = new KeyValue(n.translateYProperty(), location.getY());
+			KeyFrame kf1 = new KeyFrame(Duration.valueOf(time), kv1, kv2);
+			timelineClose.getKeyFrames().add(kf1);
+			timelineClose.play();
+		}
 	}
-	
-	private void goToNextPageStart(Node n){
-		double w = ((pageHeight-pageWidth)/2)+ (2*pageWidth-cornerTriSize);
-		double h = -(pageWidth + ((pageHeight-pageWidth)/2))+ cornerTriSize;
-		timelineClose.stop();
-		timelineClose.setCycleCount(1); 
-		timelineClose.setAutoReverse(true);
-		KeyValue kv1 = new KeyValue(n.translateXProperty(), w);
-		KeyValue kv2 = new KeyValue(n.translateYProperty(), h);
-		KeyFrame kf1 = new KeyFrame(Duration.valueOf("320ms"), kv1, kv2);
-		timelineClose.getKeyFrames().add(kf1);
-		timelineClose.play();
-	}
-	
-	
 	
 	private void addPrevPageDragListeners(final Node n) {
 		n.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -274,7 +295,7 @@ class FlipViewContainer3 extends StackPane{
 		
 		n.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent me) {
-				goToPrevPageStart(n);
+				animatePageMove(n, prevCornerStartPoint, "320ms");
 			}
 		});
 		
@@ -303,7 +324,7 @@ class FlipViewContainer3 extends StackPane{
 		
 		n.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent me) {
-				goToNextPageStart(n);
+				animatePageMove(n, nextCornerStartPoint, "320ms");
 			}
 		});
 		
