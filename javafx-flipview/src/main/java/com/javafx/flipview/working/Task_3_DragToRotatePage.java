@@ -2,6 +2,7 @@ package com.javafx.flipview.working;
 
 import java.util.List;
 
+import com.javafx.flipview.utils.GeoUtility;
 import com.sun.javafx.geom.Dimension2D;
 
 import javafx.animation.Animation.Status;
@@ -9,12 +10,14 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
@@ -22,6 +25,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraintsBuilder;
@@ -80,12 +84,16 @@ public class Task_3_DragToRotatePage extends ExtendApplication{
   */
 class FlipViewContainer3 extends StackPane{
 	private Dimension2D pageDimension;
+	private Point2D flipViewLayoutPoint;
 	private double cornerTriSize;
 	
 	private Point2D prevCornerStartPoint;
 	private Point2D prevCornerEndPoint ;
 	private Point2D nextCornerStartPoint ;
 	private Point2D nextCornerEndPoint;
+	
+	private SimpleDoubleProperty prevPageRotateAngle = new SimpleDoubleProperty(90);
+	private SimpleDoubleProperty nextPageRotateAngle = new SimpleDoubleProperty(-90);
 	
 	private double startDragX;
 	private double startDragY;
@@ -105,7 +113,7 @@ class FlipViewContainer3 extends StackPane{
 		@Override
 		public void changed(ObservableValue<? extends FlipPage3> paramObservableValue,FlipPage3 paramT1, FlipPage3 page) {
 			if(page!=null){
-				page.setRotate(90);
+				page.rotateProperty().bindBidirectional(prevPageRotateAngle);
 				double d = -(pageDimension.width + ((pageDimension.height-pageDimension.width)/2))+cornerTriSize;
 				prevCornerStartPoint = new Point2D(-pageDimension.width, -pageDimension.height);
 				prevCornerEndPoint = new Point2D(d, d);
@@ -124,7 +132,7 @@ class FlipViewContainer3 extends StackPane{
 				nextCornerStartPoint = new Point2D(2*pageDimension.width, -pageDimension.height);
 				nextCornerEndPoint = new Point2D(w, h);
 				
-				page.setRotate(-90);
+				page.rotateProperty().bind(nextPageRotateAngle);
 				page.setTranslateX(nextCornerEndPoint.getX());
 				page.setTranslateY(nextCornerEndPoint.getY());
 			}
@@ -181,7 +189,14 @@ class FlipViewContainer3 extends StackPane{
 		
 		containerClip.setWidth((this.pageDimension.width*2)+2);
 		containerClip.setHeight(this.pageDimension.height+2);
-		this.setClip(containerClip);
+		//this.setClip(containerClip);
+		
+	}
+	
+	@Override
+	protected void layoutChildren() {
+		super.layoutChildren();
+		flipViewLayoutPoint = new Point2D(this.getLayoutX(), this.getLayoutY());
 	}
 	
 	private void configureListeners() {
@@ -194,14 +209,22 @@ class FlipViewContainer3 extends StackPane{
 			@Override
 			public void handle(MouseEvent m) {
 				if(isInPrevPageRange(m.getX(), m.getY())){
-					System.out.println("In range");
 					if(prevPage.get().getTranslateX()!=prevCornerEndPoint.getX() || prevPage.get().getTranslateY()!=prevCornerEndPoint.getY()){
 						animatePageMove(prevPage.get(), prevCornerEndPoint, "100ms");
 					}
 				}else{
-					System.out.println("Not In range");
 					if(prevPage.get().getTranslateX()!=prevCornerStartPoint.getX() || prevPage.get().getTranslateY()!=prevCornerStartPoint.getY()){
 						animatePageMove(prevPage.get(), prevCornerStartPoint, "100ms");
+					}
+				}
+				
+				if(isInNextPageRange(m.getX(), m.getY())){
+					if(nextPage.get().getTranslateX()!=nextCornerEndPoint.getX() || nextPage.get().getTranslateY()!=nextCornerEndPoint.getY()){
+						animatePageMove(nextPage.get(), nextCornerEndPoint, "100ms");
+					}
+				}else{
+					if(nextPage.get().getTranslateX()!=nextCornerStartPoint.getX() || nextPage.get().getTranslateY()!=nextCornerStartPoint.getY()){
+						animatePageMove(nextPage.get(), nextCornerStartPoint, "100ms");
 					}
 				}
 			}
@@ -210,6 +233,10 @@ class FlipViewContainer3 extends StackPane{
 
 	private boolean isInPrevPageRange(double x, double y){
 		return (x>=0 && x<=(2*cornerTriSize)) && (y>=0 && y<=(2*cornerTriSize)) ? true : false;
+	}
+	
+	private boolean isInNextPageRange(double x, double y){
+		return (x>=(2*pageDimension.width - 2*cornerTriSize) && x<=(2*pageDimension.width)) && (y>=0 && y<=(2*cornerTriSize)) ? true : false;
 	}
 	
 	public void setLeftPage(FlipPage3 fp){
@@ -269,15 +296,20 @@ class FlipViewContainer3 extends StackPane{
 		return pages;
 	}
 	
+	private EventHandler<ActionEvent> prevPageStartRotate = new EventHandler<ActionEvent>() {
+		@Override
+		public void handle(ActionEvent arg0) {
+			prevPage.get().setRotate(90);
+		}
+	};
 	private void animatePageMove(Node n, Point2D location, String time){
-		System.out.println("moving to "+location);
 		if(timelineClose.getStatus() != Status.RUNNING){
 			timelineClose = new Timeline();
 			timelineClose.setCycleCount(1); 
 			timelineClose.setAutoReverse(true);
 			KeyValue kv1 = new KeyValue(n.translateXProperty(), location.getX());
 			KeyValue kv2 = new KeyValue(n.translateYProperty(), location.getY());
-			KeyFrame kf1 = new KeyFrame(Duration.valueOf(time), kv1, kv2);
+			KeyFrame kf1 = new KeyFrame(Duration.valueOf(time), prevPageStartRotate, kv1, kv2);
 			timelineClose.getKeyFrames().add(kf1);
 			timelineClose.play();
 		}
@@ -301,6 +333,14 @@ class FlipViewContainer3 extends StackPane{
 		
 		n.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent me) {
+				
+				double p0[] = {flipViewLayoutPoint.getX(), flipViewLayoutPoint.getY(), 0.0};
+				double p1[] = {flipViewLayoutPoint.getX()+20, flipViewLayoutPoint.getY(), 0.0};
+				double p2[] = {me.getSceneX(), me.getSceneY(), 0.0};
+				
+				double angle = GeoUtility.computeAngleInDegrees(p0, p1, p2);
+				System.out.println("Angle : "+angle);
+				prevPageRotateAngle.set(angle*2);
 				double xTr = startNodeX+(me.getSceneX() - startDragX);
 				//if(xTr<0) xTr = 0;
 				
