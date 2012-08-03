@@ -1,15 +1,23 @@
 package com.ezest.javafx.demogallery.controls;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFieldBuilder;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.HBoxBuilder;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import com.javafx.experiments.scenicview.ScenicView;
 
 public class CustomTextFieldDemo extends Application {
 
@@ -31,17 +39,22 @@ public class CustomTextFieldDemo extends Application {
 		configureStage();
 		configureScroller();
 		root.getChildren().add(vb);
+		ScenicView.show(root);
 	}
 
 	private void configureScroller() {
 		CustomTextField field = new CustomTextField();
 		field.setType(CustomTextField.TextFieldType.POSITIVE_INTEGER);
+		field.setPromptText("hello");
 		field.setMaxCharLength(5);
 		HBox hb1 = HBoxBuilder.create().spacing(10).children(new Label("INTEGER_ONLY   : ") 
                                                              ,CustomTextFieldBuilder.create()
                                                              		.type(CustomTextField.TextFieldType.POSITIVE_INTEGER)
                                                              		.maxCharLength(5).build()
                                                      ).build();
+		
+		CustomPromptTextField promptField = new CustomPromptTextField();
+		promptField.setPromptText("Enter value");
 		
 		vb.getChildren().addAll(HBoxBuilder.create().spacing(10)
 				                           .children(new Label("POSITIVE_INTEGER   : ") 
@@ -60,6 +73,8 @@ public class CustomTextFieldDemo extends Application {
 			                               ,CustomTextFieldBuilder.create()
 			                                    .type(CustomTextField.TextFieldType.DOUBLE)
 			                                    .maxCharLength(13).build() ).build()
+			                   ,promptField
+			                   ,TextFieldBuilder.create().promptText("Enter value").build()
 		 		                       
 				);
 		
@@ -81,6 +96,57 @@ public class CustomTextFieldDemo extends Application {
 		this.scene = new Scene(root, Color.LINEN);
 	}
 
+}
+
+class CustomPromptTextField extends StackPane{
+	private TextField textField = new TextField();
+	private TextField promptField = TextFieldBuilder.create().style("-fx-font-style:italic;").build();
+	
+	private ChangeListener<String> textChangeListener = new ChangeListener<String>() {
+		@Override
+		public void changed(ObservableValue<? extends String> arg0,
+				String arg1, String text) {
+			if(text!=null  && text.length()>0){
+				textField.setVisible(true);
+				promptField.setVisible(false);
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						textField.requestFocus();
+						textField.positionCaret(textField.getText().length());
+					}
+				});
+			}else{
+				textField.setVisible(false);
+				promptField.setVisible(true);
+			}
+		}
+	};
+	
+	public CustomPromptTextField(){
+		super();
+		configure();
+	}
+	
+	public CustomPromptTextField(String text){
+		super();
+		this.textField.setText(text);
+		this.promptField.setText(text);
+		configure();
+	}
+	
+	private void configure() {
+		this.textField.textProperty().bindBidirectional(this.promptField.textProperty());
+		this.textField.textProperty().addListener(textChangeListener);
+		this.promptField.textProperty().addListener(textChangeListener);
+		getChildren().addAll(this.textField, this.promptField);
+	}
+	
+	public void setPromptText(String text){
+		this.textField.setPromptText(text);
+		this.promptField.setPromptText(text);
+	}
+	
 }
 
 
