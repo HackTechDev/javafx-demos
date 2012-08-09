@@ -50,6 +50,7 @@ public class AutoSuggestComboBox<T> extends StackPane{
 	public AutoSuggestComboBox() {
 		super();
 		setAlignment(Pos.CENTER_LEFT);
+		// NOTE: Change the package path accordingly to which the "auto-suggest-combo-box.css" file is added.
 		getStylesheets().add("com/ezest/javafx/components/javafxcombobox/auto-suggest-combo-box.css");
 		
 		// ComboBox declaration
