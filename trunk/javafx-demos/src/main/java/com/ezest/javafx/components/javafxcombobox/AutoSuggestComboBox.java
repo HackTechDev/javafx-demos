@@ -1,5 +1,6 @@
 package com.ezest.javafx.components.javafxcombobox;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -24,6 +25,7 @@ public class AutoSuggestComboBox<T> extends StackPane{
 	private ObservableList<T> mainList = FXCollections.observableArrayList();
 	private ObservableList<T> subList = FXCollections.observableArrayList();
 	private SimpleObjectProperty<T> selectedItem = new SimpleObjectProperty<T>();
+	private SimpleBooleanProperty focused = new SimpleBooleanProperty();
 	private ChangeListener<String> textChangeLister = new ChangeListener<String>() {
 		@Override
 		public void changed(ObservableValue<? extends String> arg0,
@@ -47,11 +49,20 @@ public class AutoSuggestComboBox<T> extends StackPane{
 		}
 	};
 	
+	private ChangeListener<T> selectedItemChangeLister = new ChangeListener<T>() {
+		@Override
+		public void changed(ObservableValue<? extends T> arg0, T arg1, T paramT2) {
+			textField.setText(paramT2.toString());
+		}
+	};
+	
 	public AutoSuggestComboBox() {
 		super();
 		setAlignment(Pos.CENTER_LEFT);
 		// NOTE: Change the package path accordingly to which the "auto-suggest-combo-box.css" file is added.
 		getStylesheets().add("com/ezest/javafx/components/javafxcombobox/auto-suggest-combo-box.css");
+		
+		selectedItem.addListener(this.selectedItemChangeLister);
 		
 		// ComboBox declaration
 		comboBox = new ComboBox<T>();

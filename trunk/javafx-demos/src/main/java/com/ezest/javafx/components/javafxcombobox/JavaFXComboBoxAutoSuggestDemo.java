@@ -52,6 +52,7 @@ public class JavaFXComboBoxAutoSuggestDemo extends Application {
 		combo.setItemsToCombo(getlist());
 		combo.getComboBox().setPrefWidth(150);
 		combo.getComboBox().setPrefHeight(50);
+		combo.selectedItemProperty().set("Catwoman");
 		
 		ComboBox<String> combo2 = new ComboBox<String>();
 		combo2.setEditable(true);
