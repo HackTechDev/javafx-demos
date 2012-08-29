@@ -1,5 +1,9 @@
 package com.ezest.javafx.demogallery.javafx2_2;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,6 +24,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import javax.imageio.ImageIO;
 
 import com.javafx.experiments.scenicview.ScenicView;
 
@@ -44,23 +50,41 @@ public class SnapShotDemo extends Application {
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				final WritableImage RASTER = new WritableImage(300, 300);
-				scene.snapshot(RASTER);
+				WritableImage image = new WritableImage(400, 400);
+				scene.snapshot(image);
+				generateImageFile(image);
 				
-				 ImageView img = new ImageView(RASTER);
-				 StackPane sp = new StackPane();
-				 sp.getChildren().add(img);
+				StackPane sp = new StackPane();
+				sp.getChildren().add(new ImageView(image));
+				
 				Stage stg = new Stage();
-				stg.setWidth(340);
-				stg.setHeight(370);
+				stg.setWidth(440);
+				stg.setHeight(470);
 				stg.setScene(new Scene(sp));
 				stg.show();
-				
 			}
 		});
 		vb.getChildren().addAll(new TextField(), btn);
 		root.getChildren().add(vb);
-		// Logic starts
+	}
+	
+	private void generateImageFile(WritableImage image){
+		try {
+		    BufferedImage bimg = convertToAwtImage(image);
+		    File outputfile = new File("saved.png");
+		    ImageIO.write(bimg, "png", outputfile);
+		} catch (IOException e) {
+		   System.out.println("");
+		}
+	}
+
+	private java.awt.image.BufferedImage convertToAwtImage(javafx.scene.image.Image fxImage) {
+		if (Image.impl_isExternalFormatSupported(BufferedImage.class)) {
+			java.awt.image.BufferedImage awtImage = new BufferedImage((int)fxImage.getWidth(), (int)fxImage.getHeight(), BufferedImage.TYPE_INT_ARGB);
+			return (BufferedImage)fxImage.impl_toExternalImage(awtImage);
+		} else {
+			return null;
+		}
 	}
 
 	private void configureStage(){
