@@ -37,7 +37,7 @@ import javax.imageio.ImageIO;
 import com.javafx.experiments.scenicview.ScenicView;
 
 /**
- * https://blogs.oracle.com/thejavatutorials/entry/javafx_2_2_documentation
+ * https://blogs.oracle.com/thejavatutorials/entry/take_a_snaphot_with_javafx
  * @author Sai.Dandem
  *
  */
