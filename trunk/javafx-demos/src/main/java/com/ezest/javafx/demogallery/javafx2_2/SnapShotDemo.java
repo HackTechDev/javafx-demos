@@ -10,7 +10,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.PerspectiveCameraBuilder;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.SnapshotResult;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
@@ -22,8 +25,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
+import javafx.scene.transform.Shear;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import javax.imageio.ImageIO;
 
@@ -46,26 +53,70 @@ public class SnapShotDemo extends Application {
 		
 		VBox vb = new VBox();
 		
-		Button btn = new Button("ScreenShot");
+		final Button btn = new Button("Simple SnapShot");
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
-				WritableImage image = new WritableImage(400, 400);
-				scene.snapshot(image);
-				generateImageFile(image);
-				
-				StackPane sp = new StackPane();
-				sp.getChildren().add(new ImageView(image));
-				
-				Stage stg = new Stage();
-				stg.setWidth(440);
-				stg.setHeight(470);
-				stg.setScene(new Scene(sp));
-				stg.show();
+				showSimpleSnapShot();
 			}
 		});
-		vb.getChildren().addAll(new TextField(), btn);
+		
+		Button btn2 = new Button("Parameters SnapShot");
+		btn2.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				showParametersSnapShot();
+				
+			}
+		});
+		
+		
+		vb.getChildren().addAll(new TextField(), btn,btn2);
 		root.getChildren().add(vb);
+	}
+	
+	private void showSimpleSnapShot(){
+		WritableImage image = new WritableImage(400, 400);
+		scene.snapshot(image);
+		generateImageFile(image);
+		openStage(image);
+	}
+	
+	private void showParametersSnapShot(){
+		WritableImage image = new WritableImage(400, 400);
+		Callback<SnapshotResult,java.lang.Void> callBack = new Callback<SnapshotResult, Void>() {
+			@Override
+			public Void call(SnapshotResult result) {
+				SnapshotParameters param = result.getSnapshotParameters();
+				return null;
+			}
+		};
+		SnapshotParameters param = new SnapshotParameters(); 
+		param.setCamera(PerspectiveCameraBuilder.create().fieldOfView(45).build());
+		param.setDepthBuffer(true);
+		param.setFill(Color.CORNSILK);
+		
+		
+		Shear shear = new Shear(0.7, 0);
+		Rotate rt = new Rotate(5);
+		Scale scl = new Scale(6, 6);
+		
+		param.setTransform(scl);
+		root.snapshot(callBack,param, image);
+		
+		generateImageFile(image);
+		openStage(image);
+	}
+	
+	private void openStage(Image image){
+		StackPane sp = new StackPane();
+		sp.getChildren().add(new ImageView(image));
+		
+		Stage stg = new Stage();
+		stg.setWidth(440);
+		stg.setHeight(470);
+		stg.setScene(new Scene(sp));
+		stg.show();
 	}
 	
 	private void generateImageFile(WritableImage image){
