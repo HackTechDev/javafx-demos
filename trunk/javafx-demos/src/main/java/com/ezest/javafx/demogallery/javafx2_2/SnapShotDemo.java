@@ -36,6 +36,11 @@ import javax.imageio.ImageIO;
 
 import com.javafx.experiments.scenicview.ScenicView;
 
+/**
+ * https://blogs.oracle.com/thejavatutorials/entry/javafx_2_2_documentation
+ * @author Sai.Dandem
+ *
+ */
 public class SnapShotDemo extends Application {
 
 	Stage stage;
