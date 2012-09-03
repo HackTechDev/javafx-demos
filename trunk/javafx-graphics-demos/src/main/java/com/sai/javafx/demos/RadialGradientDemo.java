@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.CircleBuilder;
 
 import com.sai.javafx.common.ExtendedApplicationX;
+import com.sai.javafx.components.SmileyFX;
 
 public class RadialGradientDemo extends ExtendedApplicationX {
 
@@ -15,7 +16,7 @@ public class RadialGradientDemo extends ExtendedApplicationX {
 	protected void setup() {
 		VBox vb = new VBox();
 		vb.setSpacing(10);
-		
+		vb.getChildren().add(SmileyFX.smiley(40));
 		// #9
 				vb.getChildren().add(HBoxBuilder.create()
 										.children(
