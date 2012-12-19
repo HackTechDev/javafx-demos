@@ -43,8 +43,7 @@ public class WebViewAutoHeightAdjust extends Application {
 		
 		VBox vb = new VBox();
 		vb.setMaxWidth(700);
-		SliderTextField tf = new SliderTextField(0, 1, 1);
-		StackPane header = StackPaneBuilder.create().style("-fx-background-color:orange;").children(tf).prefHeight(50).build();
+		StackPane header = StackPaneBuilder.create().style("-fx-background-color:orange;").prefHeight(50).build();
 		StackPane footer = StackPaneBuilder.create().style("-fx-background-color:orange;").children(new Label("Footer")).prefHeight(50).build();
 		
 		WebView webView = new WebView();
@@ -54,7 +53,7 @@ public class WebViewAutoHeightAdjust extends Application {
         //webEngine.load(urlHello.toExternalForm());
 		webEngine.loadContent(getReplacedContent("FX"));
 		
-		webView.fontScaleProperty().bind(tf.valueProperty());
+		
 		Text txt = new Text(getMainContent());
 		txt.setWrappingWidth(700);
 		txt.setStyle("-fx-font-size:13px;-fx-font-family:verdana;");

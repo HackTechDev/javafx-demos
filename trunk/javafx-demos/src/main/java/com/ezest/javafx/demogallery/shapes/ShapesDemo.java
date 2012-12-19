@@ -6,12 +6,20 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.StackPaneBuilder;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.CircleBuilder;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.PathBuilder;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -37,9 +45,62 @@ public class ShapesDemo extends Application {
 		createOctagone();
 		createCurve();
 		createCircle();
+		createPlus();
+		createMinus();
 	}
 
 	
+	private void createPlus() {
+		Path plus = PathBuilder.create()
+				.elements(new MoveTo(5, 0),
+						new LineTo(5, 5),
+						new LineTo(0, 5),
+						new LineTo(0, 10),
+						new LineTo(5, 10),
+						new LineTo(5, 15),
+						new LineTo(10, 15),
+						new LineTo(10, 10),
+						new LineTo(15, 10),
+						new LineTo(15, 5),
+						new LineTo(10, 5),
+						new LineTo(10, 0),
+						new LineTo(5, 0))
+				.stroke(Color.web("#000000"))
+				.fill(Color.web("#FFFFFF"))
+				.strokeWidth(1)
+				.rotate(45)
+				.cursor(Cursor.HAND)
+				.build();
+		
+		Circle c = CircleBuilder.create().radius(13).style("-fx-fill:-fx-base;").build() ;
+		StackPane sp = StackPaneBuilder.create()
+									   .maxHeight(26).maxWidth(26)
+									   .prefHeight(26).prefWidth(26)
+									   .children(c,plus).build();
+		root.getChildren().add(sp);
+	}
+	
+	private void createMinus() {
+		Path minus = PathBuilder.create()
+				.elements(new MoveTo(0, 0),
+						new LineTo(0, 5),
+						new LineTo(15, 5),
+						new LineTo(15, 0),
+						new LineTo(0, 0))
+				.stroke(Color.web("#000000"))
+				.fill(Color.web("#FFFFFF"))
+				.strokeWidth(1)
+				.cursor(Cursor.HAND)
+				.build();
+		Circle c = CircleBuilder.create().radius(13).style("-fx-fill:-fx-base;").build() ;
+		StackPane sp = StackPaneBuilder.create().styleClass("close-btn")
+									   .maxHeight(26).maxWidth(26)
+									   .prefHeight(26).prefWidth(26)
+									   .children(c,minus).build();
+		
+		root.getChildren().add(sp);
+	}
+
 	private void createCircle() {
 		StackPane sp = new StackPane();
 		sp.setPrefSize(60, 60);

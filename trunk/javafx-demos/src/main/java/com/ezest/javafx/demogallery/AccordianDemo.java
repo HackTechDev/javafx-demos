@@ -5,6 +5,7 @@ import com.ezest.javafx.components.AccordionComponent;
 import com.ezest.javafx.components.TabPaneComponent;
 import com.ezest.javafx.components.AccordionComponent.AccordionPane;
 import com.ezest.javafx.fxcalendar.FXCalendar;
+import com.javafx.experiments.scenicview.ScenicView;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -125,7 +126,7 @@ public class AccordianDemo extends Application {
 			
 			TitledPane tp = new TitledPane();
 			tp.setPrefWidth(200);
-			tp.setExpanded(false);
+			//tp.setExpanded(i%2==0 ? true :false);
 			tp.setText("Title Pane "+i);
 			tp.setContent(vBox2);
 			
@@ -210,7 +211,7 @@ public class AccordianDemo extends Application {
 		this.scene = new Scene(root, Color.LINEN);
 		scene.getStylesheets().add("styles/sample.css");
 		scene.getStylesheets().add("styles/calendar_styles.css");
-		
+		ScenicView.show(scene);
 	}
 	
 	private Node createDetailPane() {
@@ -232,6 +233,7 @@ public class AccordianDemo extends Application {
 		createTab(380,"_Medication");
 		// Selecting the first tab as default.
 		detailTabPane.selectFirstTab();
+		detailTabPane.getTabs().get(1).setDisable(true);
 		
 		node.getChildren().add(detailTabPane);
 		root.getChildren().add(node);

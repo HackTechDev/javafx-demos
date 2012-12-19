@@ -1,25 +1,28 @@
-package com.ezest.javafx.demogallery.controls;
+package com.ezest.javafx.demogallery.javafx2_2;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-//import com.javafx.experiments.scenicview.ScenicView;
+import com.javafx.experiments.scenicview.ScenicView;
 
-public class ButtonBackGroundDemo extends Application {
+public class CheckBoxTest extends Application {
 
 	Stage stage;
 	Scene scene;
@@ -34,10 +37,18 @@ public class ButtonBackGroundDemo extends Application {
 		configureScene();
 		configureStage();
 		
-		Button btn = new Button("Sai Pradeep");
-		btn.getStyleClass().add("my-btn");
-		btn.setPrefSize(90, 28);
-		root.getChildren().add(btn);
+		final CheckBox cb = new CheckBox("Check Me");
+		Button btn = new Button("Show Me");
+		btn.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				System.out.println(cb.selectedProperty().get());
+			}
+		});
+		VBox vb = new VBox();
+		vb.getChildren().addAll(cb,btn);
+		root.getChildren().add(vb);
 	}
 
 	private void configureStage(){
@@ -57,7 +68,7 @@ public class ButtonBackGroundDemo extends Application {
 		bp.setCenter(root);
 		bp.autosize();
 		this.scene = new Scene(bp, Color.LINEN);
-		scene.getStylesheets().add("styles/buttonbackground.css");
+		scene.getStylesheets().add("styles/template.css");
 	}
 
 	private Node getBottom() {
@@ -71,7 +82,7 @@ public class ButtonBackGroundDemo extends Application {
 		image.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent paramT) {
-				//ScenicView.show(scene);
+				ScenicView.show(scene);
 			}
 		});
 		sp.getChildren().addAll(new Separator(),image);
@@ -79,3 +90,5 @@ public class ButtonBackGroundDemo extends Application {
 	}
 
 }
+
+

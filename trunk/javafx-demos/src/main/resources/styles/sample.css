@@ -1,3 +1,35 @@
+.tab {
+    -fx-padding: 10px 20px 10px 20px; 
+     -fx-effect: null !important;
+}
+.tab:top {
+    -fx-background-color: transparent,-fx-tab-border-color, -fx-inner-border, linear-gradient(to bottom, yellow 20%, white);
+    -fx-background-insets: 0, 4 4 0 4, 5 5 0 5, 6 6 0 6 !important;
+    -fx-background-radius: 0, 5 5 0 0, 5 5 0 0, 5 5 0 0 !important;
+    -fx-effect: null !important;
+}
+.tab:selected {
+	-fx-background-color: transparent,-fx-tab-border-color, -fx-inner-border, linear-gradient(to bottom, red 20%, white);
+    -fx-background-insets: 0, 4 4 0 4, 5 5 0 5, 6 6 0 6 !important;
+    -fx-background-radius: 5 5 0 0 !important;
+    -fx-effect: null !important;
+}
+.tab-pane *.tab-header-background {
+    -fx-background-color: white;
+    -fx-effect: null !important;
+}
+.tab-pane:top *.tab-header-area {
+	-fx-background-color: white;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 5px 2px 0px 10px;
+}
+
+
+
+
+
+
+
 /*.scene{
     -fx-font: 14pt "Cambria Bold";
     -fx-color: #e79423;
@@ -32,12 +64,12 @@
 }
 
 .my-choice-box .context-menu {
-    -fx-background-color:red; 
+    -fx-background-color:green; 
     -fx-text-fill: goldenrod;
 }
 
 .my-choice-box .menu-item {
-    -fx-background-color:red; 
+    -fx-background-color:green; 
     -fx-text-fill: goldenrod;
 }
 

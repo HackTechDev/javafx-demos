@@ -1,7 +1,10 @@
 package com.ezest.javafx.effectsdemo;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.StackPaneBuilder;
 import javafx.scene.layout.TilePane;
@@ -47,13 +50,29 @@ public class DropShadowEffectDemo extends Application {
 		StackPane sp13 = getBox( "-fx-effect: dropshadow( one-pass-box , blue , 10, 0.5 , 8 , 16 );");
 		StackPane sp14 = getBox( "-fx-effect: dropshadow( two-pass-box , blue , 10, 0.5 , 8 , 16 );");
 		StackPane sp15 = getBox( "-fx-effect: dropshadow( three-pass-box , blue , 10, 0.5 , -4 , -4 );");
-		StackPane sp15A = getBox( "-fx-effect: dropshadow( gaussian , blue , 10, 0.5 , 8 , 16 );");
+		StackPane sp15A = getBox( "-fx-effect: dropshadow( gaussian , blue , 15, 0.5 , 0 , 0 );");
 		
-		root.getChildren().addAll(sp1,sp2,sp3, 
+		final Button btn = new Button("show me");
+		btn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent paramT) {
+				btn.setStyle("-fx-effect: dropshadow( gaussian , red , 15, 0.5 , 0 , 0 );");
+			}
+		});
+		btn.setOnMouseExited(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent paramT) {
+				btn.setStyle("-fx-effect: null;");
+			}
+		});
+		
+		root.getChildren().addAll(sp1,sp2,sp3, sp3A,
 				sp4,sp5,sp6,
 				sp7,sp8,sp9, 
 				sp10,sp11,sp12, 
-				sp13,sp14,sp15
+				sp13,sp14,sp15A,btn
                 );
 	}
 

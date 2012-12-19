@@ -22,10 +22,6 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
  
-/**
- *
- * @web http://java-buddy.blogspot.com/
- */
 public class JavaScript_To_JavaFX_Communication extends Application {
      
     private Scene scene;
@@ -42,7 +38,7 @@ public class JavaScript_To_JavaFX_Communication extends Application {
      
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("java-buddy.blogspot.com");
+        primaryStage.setTitle("JavaScript_To_JavaFX_Communication Demo");
          
         myBrowser = new MyBrowser();
         scene = new Scene(myBrowser, 640, 480);
