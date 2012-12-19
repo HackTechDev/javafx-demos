@@ -16,7 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import com.javafx.experiments.scenicview.ScenicView;
 
 public abstract class ExtendApplication extends Application {
 
@@ -70,7 +69,7 @@ public abstract class ExtendApplication extends Application {
 		image.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent paramT) {
-				ScenicView.show(scene);
+				//ScenicView.show(scene);
 			}
 		});
 		sp.getChildren().addAll(new Separator(),image);
