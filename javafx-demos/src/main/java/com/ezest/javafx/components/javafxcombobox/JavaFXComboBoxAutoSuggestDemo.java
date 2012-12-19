@@ -1,6 +1,8 @@
 package com.ezest.javafx.components.javafxcombobox;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,6 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -53,10 +56,26 @@ public class JavaFXComboBoxAutoSuggestDemo extends Application {
 		combo.getComboBox().setPrefWidth(150);
 		combo.getComboBox().setPrefHeight(50);
 		combo.selectedItemProperty().set("Catwoman");
-		
-		ComboBox<String> combo2 = new ComboBox<String>();
-		combo2.setEditable(true);
+		final String pmpt ="Hello world";
+		ComboBox<String> combo2 = new ComboBox<String>(){
+			@Override
+			protected void layoutChildren() {
+				super.layoutChildren();
+				Text txt = (Text)lookup(".text");
+				
+				if(txt!=null && txt.getText()!=null){
+					if(txt.getText().equals(pmpt)){
+						txt.getStyleClass().add("combo-prompt-text");
+					}else{
+						txt.getStyleClass().remove("combo-prompt-text");
+					}
+				}
+			}
+		};
+		//combo2.setEditable(true);
 		combo2.setItems(getlist());
+		combo2.setPromptText("Hello world");
+		
 		
 		Button btn = new Button("dm");
 		btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -90,6 +109,18 @@ public class JavaFXComboBoxAutoSuggestDemo extends Application {
 	    stage.setHeight(Screen.getPrimary().getVisualBounds().getHeight());
 	    stage.setScene(this.scene);
 	    stage.show();
+	    
+	    stage.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(
+					ObservableValue<? extends Boolean> paramObservableValue,
+					Boolean paramT1, Boolean focused) {
+				if(focused){
+					System.out.println("I am focused");
+				}
+			}
+		});
+	    ScenicView.show(this.scene);
 	}
 	
 	private void configureScene(){

@@ -84,6 +84,11 @@ public class TableViewAutoSizeDemo extends Application {
 				System.out.println(event.getTarget());
 			}
 		});
+		
+		
+		TableView<MyDomain> table2 = new TableView<MyDomain>();
+		TableColumn<MyDomain,String> col1 = new TableColumn<MyDomain,String>();
+		col1.setCellValueFactory(new PropertyValueFactory<MyDomain,String>("name"));
 	}
 
 	/**

@@ -1,3 +1,7 @@
+.combo-prompt-text{
+	-fx-fill:yellow !important;
+}
+
 
 /* com.ezest.javafx.demogallery.tableviews.TableAutoSizeDemo.java */
 .myTable .table-row-cell {

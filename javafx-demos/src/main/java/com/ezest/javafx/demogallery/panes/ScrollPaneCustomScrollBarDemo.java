@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPaneBuilder;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.StackPaneBuilder;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
@@ -40,7 +41,9 @@ public class ScrollPaneCustomScrollBarDemo extends Application {
 		StackPane sp = new StackPane();
 		sp.setMaxHeight(200);
 		sp.getChildren().add(bodyScroll);
-		root.getChildren().add(sp);
+		
+		StackPane sp1 = StackPaneBuilder.create().translateY(20).style("-fx-background-color:#86032B;").opacity(.59).maxHeight(200).maxWidth(200).build();
+		root.getChildren().addAll(sp,sp1);
 	}
 
 	private void configureStage(){
@@ -57,7 +60,7 @@ public class ScrollPaneCustomScrollBarDemo extends Application {
 		root = new StackPane();
 		root.autosize();
 		root.maxHeight(200);
-		this.scene = new Scene(root, Color.LINEN);
+		this.scene = new Scene(root, Color.WHITE);
 		scene.getStylesheets().add("styles/customScrollBar.css");
 	}
 

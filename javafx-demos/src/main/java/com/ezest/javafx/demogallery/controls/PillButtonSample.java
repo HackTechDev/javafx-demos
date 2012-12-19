@@ -8,11 +8,17 @@ package com.ezest.javafx.demogallery.controls;
 
  */
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -103,6 +109,37 @@ public class PillButtonSample extends Application {
         HBox hBox = new HBox();
         hBox.getChildren().addAll(tb1, tb2, tb3);
         root.getChildren().addAll(new Label("Using ToggleButtons"),hBox);
+        final CheckBox cb1 = new CheckBox();
+        final CheckBox cb2= new CheckBox();
+        final CheckBox cb3 = new CheckBox();
+        
+        final List<CheckBox> list = new ArrayList<CheckBox>();
+        list.add(cb1);
+        list.add(cb2);
+        list.add(cb3);
+        
+        Label lbl1 = new Label("Select All");
+        Label lbl2 = new Label("De Select All");
+        lbl1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent arg0) {
+				for (CheckBox checkBox : list) {
+					checkBox.setSelected(true);
+				}
+			}
+		});
+        
+        
+        lbl2.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent arg0) {
+				for (CheckBox checkBox : list) {
+					checkBox.setSelected(false);
+				}
+			}
+		});
+         root.getChildren().addAll(lbl1,lbl2,cb1,cb2,cb3);
+        
 
     }
 

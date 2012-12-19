@@ -1,27 +1,45 @@
 package com.ezest.javafx.demogallery.tableviews;
 
+import java.util.Set;
+
 import javafx.application.Application;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class TableViewPercentColumnDemo extends Application {
+import com.javafx.experiments.scenicview.ScenicView;
 
+public class TableViewPercentColumnDemo extends Application {
+	TableView<MyDomain> table;
+	TableColumn<MyDomain,String> col1;
+	TableColumn<MyDomain,String> col2;
+	TableColumn<MyDomain,String> col3;
+	
 	public static void main(String[] args) {
 		Application.launch(args);
 	}
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		StackPane root = new StackPane();
+		VBox root = new VBox();
+		root.setSpacing(5);
 		root.autosize();
 		Scene scene = new Scene(root);
 		stage.setTitle("TableView Auto Size Demo");
@@ -29,38 +47,85 @@ public class TableViewPercentColumnDemo extends Application {
 		stage.setHeight(400);
 		stage.setScene(scene);
 		stage.show();
-		
+		ScenicView.show(scene);
 		configureTable(root);
 	}
 
 	@SuppressWarnings("unchecked")
-	private void configureTable(StackPane root) {
-
-		final ObservableList<MyDomain> data = FXCollections.observableArrayList(
-				new MyDomain("Apple","This is a fruit.","Red"),
-				new MyDomain("Orange","This is also a fruit.","Orange"),
-				new MyDomain("Potato","This is a vegetable.","Brown")
-				);
-
-		TableView<MyDomain> table = new TableView<MyDomain>();
+	private void configureTable(VBox root) {
+		final SimpleDoubleProperty scrollWidth = new SimpleDoubleProperty();
 		
-		final TableColumn<MyDomain,String> col1 = new TableColumn<MyDomain,String>();
+		final ObservableList<MyDomain> data = FXCollections.observableArrayList();
+
+		for (int i = 0; i < 2; i++) {
+			data.add(new MyDomain("Apple","This is a fruit.","Red"));
+			data.add(new MyDomain("Orange","This is also a fruit.","Orange"));
+			data.add(new MyDomain("Apple","This is a fruit.","Red"));
+		}
+		table = new TableView<MyDomain>(){
+			@Override
+			protected void layoutChildren() {
+				super.layoutChildren();
+				Set<Node> sbs = (Set<Node>)lookupAll(".scroll-bar");
+				if(sbs.size()>0){
+					for (Node node : sbs) {
+						if(node instanceof ScrollBar){
+							ScrollBar scroll = (ScrollBar)node;
+							if(scroll.getOrientation() == Orientation.VERTICAL){
+								if(scroll.isVisible()){
+									realignColumns(getWidth(), 12);
+								}else{
+									realignColumns(getWidth(), 0);
+								}
+							}// eo Orientation
+						} // eo instanceof
+					}// eo for
+				}// eo if
+			}// eo layoutChildren()
+		};
+		
+		table.getItems().addListener(new ListChangeListener<MyDomain>() {
+			@Override
+			public void onChanged(javafx.collections.ListChangeListener.Change<? extends MyDomain> paramChange) {
+				realignColumns(table.getWidth(), isVerticalScrollVisible() ? 12 : 0);
+			}
+		});
+		
+		col1 = new TableColumn<MyDomain,String>();
 		col1.setCellValueFactory(new PropertyValueFactory<MyDomain,String>("name"));
 		
-		final TableColumn<MyDomain,String> col2 = new TableColumn<MyDomain,String>();
+		col2 = new TableColumn<MyDomain,String>();
 		col2.setCellValueFactory(new PropertyValueFactory<MyDomain,String>("description"));
 		
-		final TableColumn<MyDomain,String> col3 = new TableColumn<MyDomain,String>();
+		col3 = new TableColumn<MyDomain,String>();
 		col3.setCellValueFactory(new PropertyValueFactory<MyDomain,String>("color"));
 		
 		table.getColumns().addAll(col1,col2,col3);
 		table.setItems(data);
-		root.getChildren().add(table);
+		
+		
+		Button btn = new Button("Add");
+		btn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent paramT) {
+				table.getItems().add(new MyDomain("Apple","This is a fruit.","Red"));
+			}
+		});
+		Button del = new Button("Del");
+		del.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent paramT) {
+				data.remove(0);
+			}
+		});
+		
+		root.getChildren().addAll(btn,del,table);
+		VBox.setVgrow(table, Priority.ALWAYS);
 		
 		//Procedure: #1
-			col1.prefWidthProperty().bind(table.widthProperty().subtract(3).divide(100).multiply(30));
-			col2.prefWidthProperty().bind(table.widthProperty().subtract(3).divide(100).multiply(40));
-			col3.prefWidthProperty().bind(table.widthProperty().subtract(3).divide(100).multiply(30));
+			//col1.prefWidthProperty().bind(table.widthProperty().subtract(scrollWidth.get() + 3).divide(100).multiply(30));
+			//col2.prefWidthProperty().bind(table.widthProperty().subtract(scrollWidth.get() + 3).divide(100).multiply(40));
+			//col3.prefWidthProperty().bind(table.widthProperty().subtract(scrollWidth.get() + 3).divide(100).multiply(30));
 			
 		//Procedure: #2
 			/*table.widthProperty().addListener(new ChangeListener<Number>() {
@@ -70,9 +135,33 @@ public class TableViewPercentColumnDemo extends Application {
 					col1.setPrefWidth((tableWidth/100)*30);
 					col2.setPrefWidth((tableWidth/100)*40);
 					col3.setPrefWidth((tableWidth/100)*30);
+					
 				}
 			});*/
 		
+	}
+	
+	private boolean isVerticalScrollVisible(){
+		Set<Node> sbs = (Set<Node>)table.lookupAll(".scroll-bar");
+		if(sbs.size()>0){
+			for (Node node : sbs) {
+				if(node instanceof ScrollBar){
+					ScrollBar scroll = (ScrollBar)node;
+					if(scroll.getOrientation() == Orientation.VERTICAL){
+						if(scroll.isVisible()){
+							return true;
+						}
+					}// eo Orientation
+				} // eo instanceof
+			}// eo for
+		}// eo if
+		return false;
+	}
+	private void realignColumns(double tableWidth, double scrollWidth){
+		tableWidth = tableWidth-scrollWidth-3;
+		col1.setPrefWidth((tableWidth/100)*30);
+		col2.setPrefWidth((tableWidth/100)*40);
+		col3.setPrefWidth((tableWidth/100)*30);
 	}
 
 	/**
