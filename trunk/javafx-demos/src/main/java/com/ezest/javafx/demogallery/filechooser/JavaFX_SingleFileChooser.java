@@ -15,10 +15,9 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class JavaFX_FileChooser extends Application {
+public class JavaFX_SingleFileChooser extends Application {
 
 	File file;
-	List<File> fileList;
 
 	/**
 	 * @param args
@@ -30,17 +29,16 @@ public class JavaFX_FileChooser extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		primaryStage.setTitle("Hello World!");
+		primaryStage.setTitle("Single File Chooser");
 
 		final Label labelFile = new Label();
 
 		Button btn = new Button();
-		btn.setText("Open FileChooser'");
+		btn.setText("Open FileChooser");
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-
 				// Set extension filter
 				// FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("AVI files (*.avi)", "*.avi");
 				FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("All files", "*.*");
@@ -49,20 +47,15 @@ public class JavaFX_FileChooser extends Application {
 				fileChooser.getExtensionFilters().add(extFilter);
 
 				/* Show open file dialog to select one file. */
-				// file = fileChooser.showOpenDialog(null);
-				// labelFile.setText(file.getPath());
-				
-				/* Show open file dialog to select multiple files. */
-				fileList = fileChooser.showOpenMultipleDialog(null);
-				//labelFile.setText(fileList.get(0).getPath());
-				
-				DirectoryChooser dirChooser = new DirectoryChooser();
-				dirChooser.showDialog(null);
+				file = fileChooser.showOpenDialog(null);
+				if (file != null) {
+					labelFile.setText(file.getPath());
+				}
 			}
 		});
 
 		VBox vBox = new VBox();
-		vBox.getChildren().addAll(labelFile, btn);
+		vBox.getChildren().addAll(btn, labelFile);
 
 		StackPane root = new StackPane();
 		root.getChildren().add(vBox);
