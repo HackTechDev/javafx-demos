@@ -13,6 +13,12 @@
 	-fx-background-repeat:repeat;
 	-fx-background-size:stretch;
 }
+.backgroundShelf{
+	-fx-background-image:url("../images/ebook/self_bg.png");
+	-fx-background-position:bottom;
+	-fx-background-repeat:no-repeat;
+	-fx-background-size:contain;
+}
 .backgroundFooter{
 	-fx-background-image:url("../images/ebook/footer.png");
 	-fx-background-repeat:repeat;
