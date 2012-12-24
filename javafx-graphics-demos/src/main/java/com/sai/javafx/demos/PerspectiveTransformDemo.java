@@ -63,7 +63,7 @@ public class PerspectiveTransformDemo extends ExtendedApplicationX{
 							.lly(60.0).build()	);// Right to Left
 
 		vBox.getChildren().addAll(g1,g2,g3,g4);
-		root.setContent(vBox);
+		root.getChildren().add(vBox);
 	}
 	
 	private Group getNode(){

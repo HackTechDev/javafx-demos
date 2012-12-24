@@ -88,7 +88,7 @@ public class CasinoBoardDemo extends ExtendedApplicationX{
 			}
 		});
 		vb.getChildren().addAll(btn,slantedBoard,containter);
-		root.setContent(vb);
+		root.getChildren().add(vb);
 	}
 	
 	@Override

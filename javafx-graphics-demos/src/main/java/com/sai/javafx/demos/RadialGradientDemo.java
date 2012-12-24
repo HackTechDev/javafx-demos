@@ -118,7 +118,7 @@ public class RadialGradientDemo extends ExtendedApplicationX {
 						).build())	;	
 
 		
-		root.setContent(vb);
+		root.getChildren().add(vb);
 	}
 	public static void main(String[] args) {
 		ExtendedApplicationX.launch(args);

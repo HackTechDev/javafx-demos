@@ -27,7 +27,7 @@ public class RadialGradientDrill extends ExtendedApplicationX  {
 		drillFocusDistance();
 		drillFocusAngle();
 		
-		root.setContent(vb);
+		root.getChildren().add(vb);
 	}
 	
 	
