@@ -24,3 +24,63 @@
 	-fx-background-repeat:repeat;
 	-fx-background-size:stretch;
 }
+
+/* ============ SCROLL BARS ================================================= */
+.scroll-rack > * > .scroll-bar {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0,1;
+}
+.scroll-rack > * > .scroll-bar .track {
+    -fx-background-color: #552F00;
+    -fx-opacity:1;
+}
+.scroll-rack > * > .scroll-bar .thumb {
+    -fx-background-color: #CFA25C;
+    -fx-background-insets: 3;
+    -fx-background-radius: 5px;
+}
+.scroll-rack > * > .scroll-bar:horizontal .increment-button, 
+.scroll-rack > * > .scroll-bar:horizontal .decrement-button{
+    -fx-background-color: #552F00;
+    -fx-padding: 6 0 6 0;
+}
+.scroll-rack > * > .scroll-bar:vertical .increment-button,
+.scroll-rack > * > .scroll-bar:vertical .decrement-button{
+    -fx-background-color: #552F00;
+    -fx-padding: 0 6 0 6;
+}
+.scroll-rack > * > .scroll-bar .increment-arrow, 
+.scroll-rack > * > .scroll-bar .decrement-arrow {
+    -fx-background-color: #552F00;
+    -fx-padding: 0;
+}
+.scroll-rack > * > .corner {
+    -fx-background-color:   #552F00;
+    -fx-background-insets: 0,1 0 0 1;
+}
+
+.scroll-rack > * > .scroll-bar:horizontal {
+    -fx-background-insets: 0,1 0 0 0;
+    -fx-padding: 0;
+}
+.scroll-rack > * > .scroll-bar:horizontal .increment-button, 
+.scroll-rack > * > .scroll-bar:horizontal .decrement-button{
+    -fx-background-color: transparent;
+    -fx-padding: 6 0 5 0;
+}
+.scroll-rack > * > .scroll-bar:horizontal .thumb {
+    -fx-background-insets: 3 3 2 3;
+}
+.scroll-rack > * > .scroll-bar:vertical {
+    -fx-background-insets: 0, 0 0 0 1;
+    -fx-padding: 0;
+}
+.scroll-rack > * > .scroll-bar:vertical .increment-button, 
+.scroll-rack > * > .scroll-bar:vertical .decrement-button{
+    -fx-background-color: transparent;
+    -fx-padding: 0 5 0 6;
+}
+.scroll-rack > * > .scroll-bar:vertical .thumb {
+    -fx-background-insets: 3 2 3 3;
+}
+/* ============ SCROLL BARS ================================================= */
