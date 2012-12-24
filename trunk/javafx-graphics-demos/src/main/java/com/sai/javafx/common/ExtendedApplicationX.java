@@ -3,6 +3,7 @@ package com.sai.javafx.common;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -16,7 +17,7 @@ public abstract class ExtendedApplicationX extends Application {
     protected double DEFAULT_APP_WIDTH = 1320;
     protected double DEFAULT_APP_HEIGHT = 600;
     protected Stage stage;
-    protected ScrollPane root;
+    protected StackPane root;
     protected Scene scene;
 
     @Override
@@ -31,7 +32,7 @@ public abstract class ExtendedApplicationX extends Application {
     protected void preSetup(Stage primaryStage) {
         stage = primaryStage;
         stage.setTitle(getAppTitle());
-        root = new ScrollPane();
+        root = new StackPane();
 //        root.getStyleClass().add("root-pane"); // it is root by default since b40
         scene = new Scene(root, getAppWidth(), getAppHeight());
         stage.setScene(scene);

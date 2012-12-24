@@ -2,3 +2,19 @@
 	-fx-base: red;
 	-fx-background-color:radial-gradient(center 10% 10%, radius 100%, derive(-fx-base,90%) 10%, derive(-fx-base,-10%) 90%);
 }
+
+.backgroundHeader{
+	-fx-background-image:url("../images/ebook/header.png");
+	-fx-background-repeat:repeat;
+	-fx-background-size:stretch;
+}
+.backgroundBody{
+	-fx-background-image:url("../images/ebook/rackbg.png");
+	-fx-background-repeat:repeat;
+	-fx-background-size:stretch;
+}
+.backgroundFooter{
+	-fx-background-image:url("../images/ebook/footer.png");
+	-fx-background-repeat:repeat;
+	-fx-background-size:stretch;
+}
