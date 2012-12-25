@@ -32,7 +32,7 @@ public class AdjustColorComponentsOfImage extends Application {
    @Override
    public void start(Stage primaryStage) {
         
-       Image image = new Image("http://goo.gl/kYEQl");
+	   Image image = new Image(AdjustColorComponentsOfImage.class.getResource("/images/duke.png").toString());
        ImageView imageView = new ImageView();
        imageView.setImage(image);
         
