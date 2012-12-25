@@ -14,7 +14,7 @@ public class BackGroundImgInCssDemo extends ExtendedApplicationX{
 	@Override
 	protected void setup() {
 		StackPane body = StackPaneBuilder.create().styleClass("backgroundBody").build();
-		ScrollPane sp = ScrollPaneBuilder.create().styleClass("backgroundBody").fitToHeight(true).fitToWidth(true).build();
+		ScrollPane sp = ScrollPaneBuilder.create().styleClass("backgroundBody","scroll-rack").fitToHeight(true).fitToWidth(true).build();
 		StackPane header = StackPaneBuilder.create().styleClass("backgroundHeader").prefHeight(36).build();
 		StackPane footer = StackPaneBuilder.create().styleClass("backgroundFooter").prefHeight(31).build();
 		BorderPane bp = new BorderPane();
