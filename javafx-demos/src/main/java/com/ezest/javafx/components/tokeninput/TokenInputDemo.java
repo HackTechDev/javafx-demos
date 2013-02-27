@@ -65,10 +65,19 @@ public class TokenInputDemo extends Application {
 	}
 
 	private void configureSearchControl() {
-		final List<String> allItems = Arrays.asList("2005 In Year Of Decision","2006 In Year Of Decision","2007 In Year Of Decision","2008 In Year Of Decision","2009 In Year Of Decision",
-				"2010 In Year Of Decision","2011 In Year Of Decision","2012 In Year Of Decision","2013 In Year Of Decision","2014 In Year Of Decision","2015 In Year Of Decision");
+		final List<String> allItems = Arrays.asList("2005 In Year Of Decision For Long length",
+				                                    "2006 In Year Of Decision short length",
+				                                    "2007 In Year Of Decision Vary",
+				                                    "2008 In Year Of",
+				                                    "2009 In Year Of In",
+				                                    "2010 In Year Of DFutheru lengh of the gate for me",
+				                                    "2011 In Year Of Diamond",
+				                                    "2012 In Year Of Gold hill for the",
+				                                    "2013 In Yea",
+				                                    "2014 In Year Of Decision chdil in the forui",
+				                                    "2015 In Year Of Decision");
 
-		final TokenInputSearchControl<String> control = new TokenInputSearchControl<String>();
+		final TokenInputSearchFlowControl<String> control = new TokenInputSearchFlowControl<String>();
 		
 		EventHandler<ActionEvent> searchEvent = new EventHandler<ActionEvent>() {
 			@Override
@@ -125,7 +134,7 @@ public class TokenInputDemo extends Application {
 				}
 			}
 		}
-		System.out.println(tableData.size());
+		//System.out.println(tableData.size());
 	}
 	
 	private void configureTable() {
