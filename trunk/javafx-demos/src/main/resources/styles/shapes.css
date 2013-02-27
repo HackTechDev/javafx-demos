@@ -14,8 +14,8 @@
 	-fx-shape: "M 0 0 V 40 H 40 V 0 z";
 }
 .octagone-shape{
-	-fx-background-color: linear (0%,0%) to (0%,100%) stops (0%, derive(red,80%)) (25%, derive(red,40%)) (50%, derive(red,0%)) (98%, derive(red,-20%)) (100%, derive(red,-50%)); /*derive(-fx-base,-10%); #214078;*/
 	-fx-shape: "M 0 0 V 20 L 20 40 H 40 L 60 20 V 0 L 40 -20 H 20 z";
+	-fx-background-color: linear (0%,0%) to (0%,100%) stops (0%, derive(red,80%)) (25%, derive(red,40%)) (50%, derive(red,0%)) (98%, derive(red,-20%)) (100%, derive(red,-50%)); /*derive(-fx-base,-10%); #214078;*/
 }
 
 .curve-shape{
@@ -23,8 +23,8 @@
 	-fx-shape: "M100,100 C100,0 200,0 200,100 C200,200 100,200 100,100"; /* Ref : http://www.w3.org/TR/SVG/paths.html */
 }
 .curve-shape1{
-	-fx-background-color: linear (0%,0%) to (0%,100%) stops (0%, derive(red,80%)) (25%, derive(red,40%)) (50%, derive(red,0%)) (98%, derive(red,-20%)) (100%, derive(red,-50%)); /*derive(-fx-base,-10%); #214078;*/
 	-fx-shape: "M100,200 C100,100 250,100 250,200 S400,300 400,200";
+	-fx-background-color: linear (0%,0%) to (0%,100%) stops (0%, derive(red,80%)) (25%, derive(red,40%)) (50%, derive(red,0%)) (98%, derive(red,-20%)) (100%, derive(red,-50%)); /*derive(-fx-base,-10%); #214078;*/
 }
 .circle-shape{
 	-fx-background-color: black;
