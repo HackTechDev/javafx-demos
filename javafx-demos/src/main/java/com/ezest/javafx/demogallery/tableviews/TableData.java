@@ -16,7 +16,7 @@ public class TableData {
 	public static ObservableList<MyDomain> getData(){
 		ObservableList<MyDomain> data = FXCollections.observableArrayList(
 				 new MyDomain("Sai","This is for check 1."),
-				 new MyDomain("Pradeep","This is for check 2.")
+				 new MyDomain("Pradeep",null)
 			 );
 		
 		return data;

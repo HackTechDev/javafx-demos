@@ -1,4 +1,4 @@
-package com.ezest.javafx.sscce;
+package com.ezest.javafx.demogallery.treeview;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +12,6 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
  
-/**
- *
- * @author nwright
- */
 public class DyanmicTreeView extends Application {
  
     /**
