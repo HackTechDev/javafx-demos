@@ -1,4 +1,4 @@
-package com.ezest.javafx.sscce;
+package com.ezest.javafx.demogallery.treeview;
 
 import javafx.application.Application;
 import javafx.scene.Node;
