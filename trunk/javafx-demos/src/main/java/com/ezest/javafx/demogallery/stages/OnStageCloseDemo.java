@@ -38,6 +38,7 @@ public class OnStageCloseDemo extends Application {
 			@Override
 			public void handle(WindowEvent event) {
 				System.out.println("Closing......");
+				event.consume();
 			}
 		});
 	}

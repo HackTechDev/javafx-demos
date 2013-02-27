@@ -9,8 +9,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
@@ -24,7 +24,9 @@ public class ComboBoxApplication extends Application{
 	 
 	    root.getChildren().add(new Label("Choose your destiny:"));
 	 
-	    final EMRComboBox<String> combo = new EMRComboBox<String>();
+	   //final EMRComboBox<String> combo = new EMRComboBox<String>();
+	   final  ComboBox<String> combo = new ComboBox<>();
+	   combo.setPrefWidth(200);
 	    //combo.setComboWidth(200);
 	    //combo.setStyle("-fx-border-color: black; -fx-border-width: 1");
 	    

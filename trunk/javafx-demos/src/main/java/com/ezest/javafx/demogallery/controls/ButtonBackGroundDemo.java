@@ -1,12 +1,18 @@
 package com.ezest.javafx.demogallery.controls;
 
+import com.sun.javafx.scene.control.skin.ColorPalette;
+
 import javafx.application.Application;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Separator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,7 +43,19 @@ public class ButtonBackGroundDemo extends Application {
 		Button btn = new Button("Sai Pradeep");
 		btn.getStyleClass().add("my-btn");
 		btn.setPrefSize(90, 28);
-		root.getChildren().add(btn);
+		final SimpleObjectProperty<ColorPalette> cp = new SimpleObjectProperty<>();
+		final ColorPicker p = new ColorPicker();
+		p.showingProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> paramObservableValue, Boolean paramT1, Boolean showing) {
+				if(showing && cp.get()==null){
+//					/color-palette
+					System.out.println("Showing the pop up.");
+					System.out.println(p.lookup(".color-palette"));
+				}
+			}
+		});
+		root.getChildren().add(p);
 	}
 
 	private void configureStage(){

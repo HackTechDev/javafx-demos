@@ -14,6 +14,7 @@ import java.util.List;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -78,8 +79,15 @@ public class PillButtonSample extends Application {
 
         // create 3 toggle buttons and a toogle group for them
 
-        ToggleButton tb1 = new ToggleButton("Left Button Test");
-
+        final ToggleButton tb1 = new ToggleButton("Left Button Test");
+        tb1.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent arg0) {
+				if(!tb1.isSelected()){
+					tb1.setSelected(true);
+				}
+			}
+		});
         tb1.getStyleClass().add("pill-left");
 
         ToggleButton tb2 = new ToggleButton("Center Button Test");

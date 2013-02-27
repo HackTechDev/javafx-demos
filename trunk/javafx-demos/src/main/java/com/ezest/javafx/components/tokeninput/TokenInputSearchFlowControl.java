@@ -1,5 +1,9 @@
 package com.ezest.javafx.components.tokeninput;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -11,9 +15,10 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -25,14 +30,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.HBoxBuilder;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.StackPaneBuilder;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.util.Callback;
 
-public class TokenInputSearchControl<ItemType> extends VBox {
+public class TokenInputSearchFlowControl<ItemType> extends VBox {
 
 	private TextField searchField;
 	private Popup popup;
@@ -42,23 +51,27 @@ public class TokenInputSearchControl<ItemType> extends VBox {
 	private NodeFactory<ItemType> nodeFactory;
 	private EventHandler<ActionEvent> searchEvent;
 
-	private TokenInputSearchControl<ItemType> content;
-	private VBox itemsVBox;
+	private TokenInputSearchFlowControl<ItemType> content;
+	private FlowPane itemsFlowBox;
 	
 	
-	private StackPane itemContainer;
-	private VBox itemsVFlow;
-
-	public TokenInputSearchControl() {
+	public TokenInputSearchFlowControl() {
 		super();
 		this.content = this;
 		setPadding(new Insets(3));
 		setSpacing(3);
 		getStyleClass().add("tokenInput");
-		itemsVBox = new VBox();
+		itemsFlowBox = new FlowPane();
+		itemsFlowBox.setVgap(6);
+		itemsFlowBox.setPadding(new Insets(2,0,2,0));
 		
-		itemContainer = new StackPane();
-		getChildren().add(itemContainer);
+		StringBuilder sb = new StringBuilder("-fx-background-color:linear-gradient(from 0px -19px to 0px 0px , repeat, #EEEEEE 76% , #CCC9C1 79% , #FFF0C7 89% );");
+		sb.append("-fx-border-color:#CCC9C1;");
+		sb.append("-fx-border-width:0px 1.5px 0px 1.5px;");
+		sb.append("-fx-border-style: segments(62,14) phase 35;");
+		itemsFlowBox.setStyle(sb.toString());
+		
+		getChildren().add(StackPaneBuilder.create().children(itemsFlowBox).style("-fx-background-color:#FFF0C7").padding(new Insets(0,10,3,10)).build());
 		configureSearchField();
 	}
 
@@ -133,7 +146,7 @@ public class TokenInputSearchControl<ItemType> extends VBox {
 			chosenItemCells.add(cell);
 			chosenItems.add(selected);
 			// content.getChildren().add(content.getChildren().size() - 1, cell);
-			itemsVBox.getChildren().add(cell);
+			itemsFlowBox.getChildren().add(cell);
 			layout();
 			popup.hide();
 			if (searchEvent != null) {
@@ -141,6 +154,7 @@ public class TokenInputSearchControl<ItemType> extends VBox {
 			}
 		}
 	}
+
 
 	protected void cancelCurrent() {
 		popup.hide();
@@ -186,16 +200,19 @@ public class TokenInputSearchControl<ItemType> extends VBox {
 		popup.setAutoHide(true);
 	}
 
-	private class Cell extends HBox {
+	private class Cell extends Group {
 		private ImageView deleteButton;
-
+		private HBox hb;
 		private Cell(final ItemType item) {
-			setSpacing(6);
-			setMinHeight(24);
-			setPrefHeight(24);
-			StringBuilder builder = new StringBuilder().append("-fx-border-color: #CCD5E4;").append("-fx-border-radius: 5;")
-					.append("-fx-padding: 2 5 2 5;").append("-fx-background-radius: 5;").append("-fx-background-color: #EFF2F7;)");
-			setStyle(builder.toString());
+			hb = new HBox();
+			hb.setAlignment(Pos.CENTER_LEFT);
+			hb.setSpacing(6);
+			hb.setMinHeight(32);
+			hb.setPrefHeight(32);
+			StringBuilder builder = new StringBuilder().append("-fx-padding: 2 5 2 5;")
+					                                   .append("");
+			hb.setStyle(builder.toString());
+			getChildren().add(hb);
 
 			Node node;
 			if (nodeFactory != null) {
@@ -207,9 +224,8 @@ public class TokenInputSearchControl<ItemType> extends VBox {
 			sp.getChildren().add(node);
 			sp.setAlignment(Pos.CENTER_LEFT);
 
-			getChildren().add(sp);
-			HBox.setHgrow(sp, Priority.ALWAYS);
-
+			hb.getChildren().add(sp);
+			
 			deleteButton = new ImageView(new Image(getClass().getResourceAsStream("/images/tokeninput/cross-script.png")));
 			deleteButton.setCursor(Cursor.HAND);
 			deleteButton.setStyle("-fx-padding: 0; -fx-text-fill: blue");
@@ -219,19 +235,27 @@ public class TokenInputSearchControl<ItemType> extends VBox {
 					chosenItemCells.remove(Cell.this);
 					chosenItems.remove(item);
 					// content.getChildren().remove(Cell.this);
-					itemsVBox.getChildren().remove(Cell.this);
+					itemsFlowBox.getChildren().remove(Cell.this);
 					layout();
 					if (searchEvent != null) {
 						searchEvent.handle(null);
 					}
 				}
 			});
-			getChildren().add(deleteButton);
+			hb.getChildren().add(deleteButton);
+			
+			ImageView arrow = new ImageView(new Image(getClass().getResourceAsStream("/images/tokeninput/arrow.png")));
+			arrow.setFitHeight(32);
+			//arrow.setTranslateY(.5);
+			hb.getChildren().add(arrow);
+		}
+		public HBox getNode(){
+			return hb;
 		}
 	}
 
 }
 
-interface NodeFactoryx<DataType> {
+interface NodeFactory<DataType> {
 	Node createNode(DataType data);
 }
