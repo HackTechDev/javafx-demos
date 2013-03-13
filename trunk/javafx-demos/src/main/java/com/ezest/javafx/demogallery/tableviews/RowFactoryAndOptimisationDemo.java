@@ -7,6 +7,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,6 +22,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TooltipBuilder;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -57,11 +61,12 @@ public class RowFactoryAndOptimisationDemo extends Application {
 	@SuppressWarnings("unchecked")
 	private void configureTable() {
 		final ObservableList<RFDDomain> data = FXCollections.observableArrayList();
-		for (int i = 0; i < 10000; i++) {
-			data.add(new RFDDomain("First Row", "This is for check.", 1));
-			data.add(new RFDDomain("Second Row", null, 2));
-			data.add(new RFDDomain("Third Row", "This is for check.", 3));
-			data.add(new RFDDomain("Fourth Row", "dil", 4));
+		int id =1;
+		for (int i = 1; i <= 10000; i++) {
+			data.add(new RFDDomain(id++,"First Row", "This is for check.", 1));
+			data.add(new RFDDomain(id++,"Second Row", null, 2));
+			data.add(new RFDDomain(id++,"Third Row", "This is for check.", 3));
+			data.add(new RFDDomain(id++,"Fourth Row", "dil", 4));
 		}
 
 		TableView<RFDDomain> tableView = new TableView<RFDDomain>();
@@ -72,6 +77,16 @@ public class RowFactoryAndOptimisationDemo extends Application {
 			@Override
 			public TableRow<RFDDomain> call(TableView<RFDDomain> paramP) {
 				return new TableRow<RFDDomain>() {
+					{
+						setOnMouseClicked(new EventHandler<MouseEvent>() {
+							@Override
+							public void handle(MouseEvent mouseEvent) {
+								if ((mouseEvent.getButton().equals(MouseButton.PRIMARY)) && mouseEvent.getClickCount() >= 2) {
+									System.out.println("Row : "+((RFDDomain)getItem()).getId());
+								}
+							}
+						});
+					}
 					@Override
 					protected void updateItem(RFDDomain paramT, boolean paramBoolean) {
 						super.updateItem(paramT, paramBoolean);
@@ -87,6 +102,9 @@ public class RowFactoryAndOptimisationDemo extends Application {
 			}
 		});
 
+		TableColumn<RFDDomain, Integer> column0 = new TableColumn<RFDDomain, Integer>("Id");
+		column0.setCellValueFactory(new PropertyValueFactory<RFDDomain, Integer>("id"));
+		
 		TableColumn<RFDDomain, String> column1 = new TableColumn<RFDDomain, String>("Title");
 		column1.setCellValueFactory(new PropertyValueFactory<RFDDomain, String>("name"));
 
@@ -188,7 +206,13 @@ public class RowFactoryAndOptimisationDemo extends Application {
 				return new TableCell<RFDDomain, String>() {
 					final Button btn = new Button("Show");
 					{
-						System.out.println("             							Button : " + (RowFactoryAndOptimisationDemo.j++));
+						//System.out.println("             							Button : " + (RowFactoryAndOptimisationDemo.j++));
+						btn.setOnAction(new EventHandler<ActionEvent>() {
+							@Override
+							public void handle(ActionEvent arg0) {
+								System.out.println(((RFDDomain)getTableRow().getItem()).getId());
+							}
+						});
 					}
 
 					@Override
@@ -204,8 +228,10 @@ public class RowFactoryAndOptimisationDemo extends Application {
 			}
 		});
 
-		tableView.getColumns().addAll(column1, column2, column3, column5);
+		tableView.getColumns().addAll(column0, column1, column2, column3, column4);
 		this.root.getChildren().add(tableView);
+		
+		
 	}
 
 	protected void buildEpisodeStatusGrapic(Number status, Circle circle, Tooltip toolTip) {
@@ -244,14 +270,24 @@ public class RowFactoryAndOptimisationDemo extends Application {
 	 * Domain Model for this demo.
 	 */
 	public class RFDDomain {
+		private SimpleIntegerProperty id = new SimpleIntegerProperty();
 		private SimpleStringProperty name = new SimpleStringProperty();
 		private SimpleStringProperty description = new SimpleStringProperty();
 		private SimpleIntegerProperty status = new SimpleIntegerProperty();
 
-		public RFDDomain(String name, String desc, int status) {
+		public RFDDomain(int id,String name, String desc, int status) {
+			this.id.set(id);
 			this.name.set(name);
 			this.description.set(desc);
 			this.status.set(status);
+		}
+
+		public int getId() {
+			return id.get();
+		}
+
+		public SimpleIntegerProperty idProperty() {
+			return id;
 		}
 
 		public String getDescription() {
