@@ -11,8 +11,6 @@ import javafx.event.EventHandler;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.HBoxBuilder;

@@ -22,30 +22,19 @@ public class CheckBoxListViewDemo extends Application {
 	Stage stage;
 	Scene scene;
 	StackPane root;
+
 	public static void main(String[] args) {
 		Application.launch(args);
 	}
 
-	private List<Employee> getData(){
-		return Arrays.<Employee>asList(
-				new Employee(1, "Employee1"),
-				new Employee(2, "Employee2"),
-				new Employee(3, "Employee3"),
-				new Employee(4, "Employee4"),
-				new Employee(5, "Employee5"),
-				new Employee(6, "Employee6"),
-				new Employee(7, "Employee7"),
-				new Employee(8, "Employee8"),
-				new Employee(9, "Employee9"),
-				new Employee(10, "Employee10"),
-				new Employee(11, "Employee11"),
-				new Employee(12, "Employee12"),
-				new Employee(13, "Employee13"),
-				new Employee(14, "Employee14"),
-				new Employee(15, "Employee15"),
-				new Employee(16, "Employee16"));
+	private List<Employee> getData() {
+		return Arrays.<Employee> asList(new Employee(1, "Employee1"), new Employee(2, "Employee2"), new Employee(3, "Employee3"),
+				new Employee(4, "Employee4"), new Employee(5, "Employee5"), new Employee(6, "Employee6"), new Employee(7, "Employee7"),
+				new Employee(8, "Employee8"), new Employee(9, "Employee9"), new Employee(10, "Employee10"), new Employee(11, "Employee11"),
+				new Employee(12, "Employee12"), new Employee(13, "Employee13"), new Employee(14, "Employee14"), new Employee(15,
+						"Employee15"), new Employee(16, "Employee16"));
 	}
-	
+
 	@Override
 	public void start(Stage stage) throws Exception {
 		this.stage = stage;
@@ -55,9 +44,9 @@ public class CheckBoxListViewDemo extends Application {
 		HBox hb = new HBox();
 		hb.setSpacing(20);
 		final CheckBoxListView<Employee> listView = new CheckBoxListView<>();
-		
+
 		final VBox vb = new VBox();
-		listView.selectedItemsProperty().addListener(new ListChangeListener<Employee>(){
+		listView.selectedItemsProperty().addListener(new ListChangeListener<Employee>() {
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Employee> arg0) {
 				vb.getChildren().clear();
@@ -112,10 +101,10 @@ public class CheckBoxListViewDemo extends Application {
 		public void setName(String fName) {
 			name.set(fName);
 		}
+
 		@Override
 		public String toString() {
 			return getName();
 		}
 	}
 }
-
