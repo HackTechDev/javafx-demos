@@ -7,12 +7,12 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Separator;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.CircleBuilder;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -62,17 +62,14 @@ public class DemoTemplate extends Application {
 		StackPane sp = new StackPane();
 		sp.setMinHeight(25);
 		sp.setAlignment(Pos.TOP_RIGHT);
-		ImageView image = new ImageView(new Image(getClass().getResourceAsStream("/images/mglass.gif")));
-		image.setCursor(Cursor.HAND);
-		image.setTranslateX(-5);
-		image.setTranslateY(3);
-		image.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		Circle c = CircleBuilder.create().fill(Color.RED).translateX(-5).translateY(3).radius(8).cursor(Cursor.HAND).build();
+		c.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent paramT) {
 				ScenicView.show(scene);
 			}
 		});
-		sp.getChildren().addAll(new Separator(),image);
+		sp.getChildren().addAll(new Separator(), c);
 		return sp;
 	}
 
