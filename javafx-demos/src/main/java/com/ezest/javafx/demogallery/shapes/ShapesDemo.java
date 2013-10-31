@@ -40,6 +40,7 @@ public class ShapesDemo extends Application {
 		root.setHgap(10);
 		root.setVgap(10);
 		createTriangle();
+		createPlusShape();
 		createRectangle();
 		createSquare();
 		createOctagone();
@@ -142,6 +143,30 @@ public class ShapesDemo extends Application {
 		rightSide.setRotate(180);
 		
 		root.getChildren().addAll(gp,rightSide);
+	}
+
+	private void createPlusShape() {
+		Group gp = new Group();
+		StackPane plus1 = new StackPane();
+		plus1.setPrefSize(30, 30);
+		plus1.getStyleClass().add("plus-shape");
+		gp.getChildren().add(plus1);
+		
+		StackPane plus2 = new StackPane();
+		plus2.setPrefSize(18, 30);
+		plus2.getStyleClass().add("plus-shape");
+		
+		StackPane plus3 = new StackPane();
+		plus3.setPrefSize(18, 30);
+		plus3.getStyleClass().add("plus-shape-with-curve");
+		
+		StackPane plus4 = new StackPane();
+		plus4.setMaxSize(12, 12);
+		plus4.setMinSize(12, 12);
+		plus4.setRotate(45);
+		plus4.getStyleClass().add("plus-shape-with-curve");
+		
+		root.getChildren().addAll(gp,plus2,plus3,plus4);
 	}
 
 	private void createRectangle() {

@@ -7,6 +7,7 @@ import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -49,7 +50,7 @@ public class JavaFXOnTrayIconDemo extends Application {
 	@Override
 	public void start(final Stage stage) throws Exception {
 		this.stage = stage;
-		 Platform.setImplicitExit(false);
+		Platform.setImplicitExit(false);
 		configureScene();
 		configureStage();
 
@@ -130,11 +131,16 @@ public class JavaFXOnTrayIconDemo extends Application {
 						@Override
 						public void run() {
 							stage.show();
+							CustomPopUp p = new CustomPopUp(root);
+							p.setTranslateX(600);
+							p.setTranslateY(200);
+							initEventHandlers(p);
+							root.getChildren().add(p);
 						}
 					});
 				}
 			};
-			
+
 			// create a popup menu
 			PopupMenu popup = new PopupMenu();
 
@@ -145,16 +151,29 @@ public class JavaFXOnTrayIconDemo extends Application {
 			MenuItem closeItem = new MenuItem("Exit");
 			closeItem.addActionListener(closeListener);
 			popup.add(closeItem);
-			
+
 			trayIcon = new TrayIcon(image, "PostItNote", popup);
 			trayIcon.addActionListener(showListener);
+			trayIcon.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(java.awt.event.MouseEvent e) {
+					System.out.println(e.getButton());
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							System.out.println(23);
+							stage.show();
+						}
+					});
+				}
+			});
 			
 			try {
 				tray.add(trayIcon);
 			} catch (AWTException e) {
 				System.err.println(e);
 			}
-			
+
 		}
 	}
 
