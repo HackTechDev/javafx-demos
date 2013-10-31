@@ -6,10 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBoxBuilder;
-import javafx.scene.control.RadioButtonBuilder;
 import javafx.scene.control.Separator;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -41,11 +38,6 @@ public class DemoTemplate extends Application {
 		VBox vb = new VBox();
 		vb.setSpacing(10);
 
-		ToggleGroup tg = new ToggleGroup();
-
-		vb.getChildren().addAll(RadioButtonBuilder.create().text("First").styleClass("radio-checkbox").toggleGroup(tg).build(),
-				RadioButtonBuilder.create().text("Second").styleClass("radio-checkbox").toggleGroup(tg).build(),
-				RadioButtonBuilder.create().text("Third").styleClass("radio-checkbox").toggleGroup(tg).build());
 		root.getChildren().add(vb);
 	}
 
