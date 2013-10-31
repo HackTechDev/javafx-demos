@@ -1,16 +1,10 @@
 package com.ezest.javafx.layouts;
 
 
-import com.ezest.javafx.common.FXUtil;
-import com.ezest.javafx.components.AbstractPopUpView;
-import com.ezest.javafx.components.WindowButtons;
-import com.ezest.javafx.components.WindowResizeButton;
-import com.ezest.javafx.uicontrols.ChoiceBoxElement;
-
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,9 +14,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import com.ezest.javafx.common.FXTools;
+import com.ezest.javafx.components.AbstractPopUpView;
+import com.ezest.javafx.components.WindowButtons;
+import com.ezest.javafx.components.WindowResizeButton;
+import com.ezest.javafx.uicontrols.ChoiceBoxElement;
 
 public class PopUpDemo extends Application {
 
@@ -68,8 +67,9 @@ public class PopUpDemo extends Application {
 				new MyPopView(stage);
 			}
 		});
-		stage.setWidth(FXUtil.getScreenBounds().getWidth()-300);
-	    stage.setHeight(FXUtil.getScreenBounds().getHeight()-100);
+		final Rectangle2D bounds = FXTools.getScreenBounds();
+		stage.setWidth(bounds.getWidth()-300);
+	    stage.setHeight(bounds.getHeight()-100);
 	    stage.initStyle(StageStyle.TRANSPARENT);
 		stage.setTitle("JavaFx Layout Demo");
 		stage.setScene(scene);

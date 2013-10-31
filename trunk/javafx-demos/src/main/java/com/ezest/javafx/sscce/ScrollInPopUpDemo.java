@@ -1,16 +1,11 @@
 package com.ezest.javafx.sscce;
 
-import com.ezest.javafx.common.UtilityMethods;
-import com.sun.javafx.scene.traversal.Direction;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,6 +16,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
+
+import com.ezest.javafx.common.FXTools;
 
 public class ScrollInPopUpDemo extends Application {
 
@@ -57,7 +54,7 @@ public class ScrollInPopUpDemo extends Application {
 				scrollPane.setContent(listView);
 				
 				popup.getContent().add(scrollPane);
-				Point2D d = UtilityMethods.getAbsoluteStartPointOfNode(btn);
+				Point2D d = FXTools.getAbsoluteStartPointOfNode(btn);
 				popup.show(btn, d.getX(),  d.getY());
 			}
 		});

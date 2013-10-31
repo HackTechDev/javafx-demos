@@ -1,5 +1,9 @@
 package com.ezest.javafx.demogallery.panes;
 
+import java.util.HashMap;
+
+import com.javafx.experiments.scenicview.ScenicView;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -62,6 +66,7 @@ public class ScrollPaneCustomScrollBarDemo extends Application {
 		root.maxHeight(200);
 		this.scene = new Scene(root, Color.WHITE);
 		scene.getStylesheets().add("styles/customScrollBar.css");
+		ScenicView.show(scene);
 	}
 
 }

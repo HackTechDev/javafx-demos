@@ -1,11 +1,14 @@
 package com.ezest.javafx.demogallery.popup;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonBuilder;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextFieldBuilder;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -42,8 +45,8 @@ public class DraggablePopUpOnStackPaneDemo extends Application {
 				.create()
 				.maxHeight(40)
 				.maxWidth(100)
-				.style("-fx-background-color:red;-fx-border-width:1px;-fx-border-color:black;-fx-background-radius:5px;-fx-border-radius:5px;")
-				.build();
+				.style("-fx-background-color:red;-fx-border-width:1px;-fx-border-color:black;-fx-background-radius:5px;-fx-border-radius:5px;-fx-cursor:hand;")
+				.children(new Label("Add Note")).build();
 		sp.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent arg0) {
@@ -55,6 +58,12 @@ public class DraggablePopUpOnStackPaneDemo extends Application {
 			}
 		});
 		root.getChildren().add(sp);
+		stage.focusedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+				System.out.println(arg2);
+			}
+		});
 	}
 
 	private void configureStage() {

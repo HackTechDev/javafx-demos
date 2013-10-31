@@ -1,5 +1,7 @@
 package com.ezest.javafx.demogallery.webview;
 
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -49,9 +51,10 @@ public class WebViewAutoHeightAdjust extends Application {
 		WebView webView = new WebView();
 		webView.setMaxWidth(730);
 		WebEngine webEngine = webView.getEngine();
-		//final URL urlHello = getClass().getResource("AutoHeightCheck.html");
-        //webEngine.load(urlHello.toExternalForm());
-		webEngine.loadContent(getReplacedContent("FX"));
+		final URL urlHello = getClass().getResource("AutoHeightCheck.html");
+		webEngine.load(urlHello.toExternalForm());
+		//webEngine.load("www.makemytrip.com");
+		//webEngine.loadContent(getReplacedContent("FX"));
 		
 		
 		Text txt = new Text(getMainContent());

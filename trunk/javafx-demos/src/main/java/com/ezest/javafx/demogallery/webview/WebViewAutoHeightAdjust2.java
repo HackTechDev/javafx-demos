@@ -28,12 +28,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
 
-import com.ezest.javafx.common.Utility;
 import com.javafx.experiments.scenicview.ScenicView;
 
 public class WebViewAutoHeightAdjust2 extends Application {
-	public static final String JQUERY_URL = Utility.class.getResource("/scripts/jquery-1.7.2.js").toExternalForm();
-	public static final String MYJS_URL = Utility.class.getResource("/scripts/myscript.js").toExternalForm();
+	public static final String JQUERY_URL = WebViewAutoHeightAdjust2.class.getResource("/scripts/jquery-1.7.2.js").toExternalForm();
+	public static final String MYJS_URL = WebViewAutoHeightAdjust2.class.getResource("/scripts/myscript.js").toExternalForm();
 	Stage stage;
 	Scene scene;
 	StackPane root;

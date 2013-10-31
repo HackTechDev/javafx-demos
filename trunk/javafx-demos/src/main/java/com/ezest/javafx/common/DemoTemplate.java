@@ -6,10 +6,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBoxBuilder;
+import javafx.scene.control.RadioButtonBuilder;
 import javafx.scene.control.Separator;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.CircleBuilder;
@@ -23,32 +27,39 @@ public class DemoTemplate extends Application {
 	Stage stage;
 	Scene scene;
 	StackPane root;
+
 	public static void main(String[] args) {
 		Application.launch(args);
 	}
-	
+
 	@Override
 	public void start(Stage stage) throws Exception {
 		this.stage = stage;
 		configureScene();
 		configureStage();
 		// Logic starts
-		//VBox vb = new VBox();
-		//vb.getChildren().addAll();
-		//root.getChildren().add(vb);
+		VBox vb = new VBox();
+		vb.setSpacing(10);
+
+		ToggleGroup tg = new ToggleGroup();
+
+		vb.getChildren().addAll(RadioButtonBuilder.create().text("First").styleClass("radio-checkbox").toggleGroup(tg).build(),
+				RadioButtonBuilder.create().text("Second").styleClass("radio-checkbox").toggleGroup(tg).build(),
+				RadioButtonBuilder.create().text("Third").styleClass("radio-checkbox").toggleGroup(tg).build());
+		root.getChildren().add(vb);
 	}
 
-	private void configureStage(){
+	private void configureStage() {
 		stage.setTitle(this.getClass().getSimpleName());
 		stage.setX(0);
-	    stage.setY(0);
-	    stage.setWidth(Screen.getPrimary().getVisualBounds().getWidth());
-	    stage.setHeight(Screen.getPrimary().getVisualBounds().getHeight());
-	    stage.setScene(this.scene);
-	    stage.show();
+		stage.setY(0);
+		stage.setWidth(Screen.getPrimary().getVisualBounds().getWidth());
+		stage.setHeight(Screen.getPrimary().getVisualBounds().getHeight());
+		stage.setScene(this.scene);
+		stage.show();
 	}
-	
-	private void configureScene(){
+
+	private void configureScene() {
 		root = new StackPane();
 		BorderPane bp = new BorderPane();
 		bp.setBottom(getBottom());
@@ -74,4 +85,3 @@ public class DemoTemplate extends Application {
 	}
 
 }
-
